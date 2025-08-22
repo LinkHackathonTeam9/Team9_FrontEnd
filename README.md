@@ -1,4 +1,4 @@
-##설치한 명령어
+# 설치한 명령어
 
 npm install vite@latest
 
