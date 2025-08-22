@@ -9,4 +9,4 @@ npm intall react react-dom
 
 npm i react-router-dom // 라우터 추가
 
-npm install -D eslint prettier // eslint/prettier 설정
+npm install -D eslint prettier // ESlint/Prettier 설정
