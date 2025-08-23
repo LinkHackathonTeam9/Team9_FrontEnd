@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./team9",
+    "baseUrl": ".",
     "paths": {
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"],
