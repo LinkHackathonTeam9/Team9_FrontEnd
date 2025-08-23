@@ -1,8 +1,8 @@
-import { Route, Routes } from "react-router-dom";
-import "./App.css";
-import Home from "@pages/Home.tsx";
-import About from "@pages/About.tsx";
-import NotFound from "@pages/NotFound.tsx";
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
+import Home from '@pages/Home.tsx';
+import About from '@pages/About.tsx';
+import NotFound from '@pages/NotFound.tsx';
 
 function App() {
   return (
