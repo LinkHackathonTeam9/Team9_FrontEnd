@@ -69,6 +69,7 @@ const SignupPage = () => {
 
   const handleSignup = () => {
     // todo1 나중에 API 넣을 자리
+    alert('회원가입 완료되었습니다. 로그인 페이지을 완료해주세요.');
     navigate('/');
   };
 
