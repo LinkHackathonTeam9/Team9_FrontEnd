@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 
@@ -60,32 +60,32 @@ const SignUpButton = styled.button`
 `;
 
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const email = useRef<string>('');
+  const password = useRef<string>('');
   const navigate = useNavigate();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const handleLogin = () => {
-    if (email === '') {
+    if (email.current === '') {
       alert('이메일을 입력해주세요.');
       return;
     }
 
-    if (password === '') {
-      alert('비밀번호를 입력해주세요.');
-      return;
-    }
-    if (!email.includes('@')) {
+    if (!email.current.includes('@')) {
       alert('이메일 형식이 올바르지 않습니다.');
       return;
     }
+    email.current = e.target.value;
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (password.current === '') {
+      alert('비밀번호를 입력해주세요.');
+      return;
+    }
+    password.current = e.target.value;
+  };
+
+  const handleLogin = () => {
     // 나중에 API 넣을 자리
     navigate('/home');
   };
@@ -98,8 +98,8 @@ const LoginPage = () => {
     <Container>
       <ContentWrapper>
         <LoginForm>
-          <LoginInput type="email" placeholder="이메일을 입력해주세요" value={email} onChange={handleEmailChange} />
-          <LoginInput type="password" placeholder="비밀번호를 입력해주세요" value={password} onChange={handlePasswordChange} />
+          <LoginInput type="email" placeholder="이메일을 입력해주세요" onChange={handleEmailChange} />
+          <LoginInput type="password" placeholder="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
           <LoginButton onClick={handleLogin}>로그인</LoginButton>
           <p>아직 회원이 아니신가요?</p>
           <SignUpButton onClick={handleSignUp}>회원가입</SignUpButton>
