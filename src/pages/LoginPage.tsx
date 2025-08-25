@@ -60,29 +60,16 @@ const SignUpButton = styled.button`
 `;
 
 const LoginPage = () => {
-  const email = useRef<string>('');
-  const password = useRef<string>('');
+  const emailRef = useRef<string>('');
+  const passwordRef = useRef<string>('');
   const navigate = useNavigate();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (email.current === '') {
-      alert('이메일을 입력해주세요.');
-      return;
-    }
-
-    if (!email.current.includes('@')) {
-      alert('이메일 형식이 올바르지 않습니다.');
-      return;
-    }
-    email.current = e.target.value;
+    emailRef.current = e.target.value;
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (password.current === '') {
-      alert('비밀번호를 입력해주세요.');
-      return;
-    }
-    password.current = e.target.value;
+    passwordRef.current = e.target.value;
   };
 
   const handleLogin = () => {
@@ -94,13 +81,31 @@ const LoginPage = () => {
     navigate('/signup');
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const email = emailRef.current ?? '';
+    const pw = passwordRef.current ?? '';
+
+    if (!email.includes('@')) {
+      alert('이메일 형식이 올바르지 않습니다.');
+      return;
+    }
+    if (!(pw.length >= 2 && pw.length <= 10)) {
+      alert('비밀번호는 2자 이상 10자 이하여야 합니다.');
+      return;
+    }
+
+    handleLogin();
+  };
+
   return (
     <Container>
       <ContentWrapper>
-        <LoginForm>
+        <LoginForm onSubmit={handleSubmit}>
           <LoginInput type="email" placeholder="이메일을 입력해주세요" onChange={handleEmailChange} />
           <LoginInput type="password" placeholder="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
-          <LoginButton onClick={handleLogin}>로그인</LoginButton>
+          <LoginButton type="submit">로그인</LoginButton>
           <p>아직 회원이 아니신가요?</p>
           <SignUpButton onClick={handleSignUp}>회원가입</SignUpButton>
         </LoginForm>
