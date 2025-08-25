@@ -50,59 +50,59 @@ const SignupButton = styled.button`
 `;
 
 const SignupPage = () => {
-  const email = useRef<string>('');
-  const password = useRef<string>('');
-  const nickname = useRef<string>('');
+  const emailRef = useRef<string>('');
+  const passwordRef = useRef<string>('');
+  const nicknameRef = useRef<string>('');
   const navigate = useNavigate();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.value.includes('@')) {
-      alert('이메일 형식이 올바르지 않습니다.');
-      return;
-    }
-
-    if (e.target.value === '') {
-      alert('이메일을 입력해주세요.');
-      return;
-    }
-
-    email.current = e.target.value;
+    emailRef.current = e.target.value;
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === '') {
-      alert('비밀번호를 입력해주세요.');
-      return;
-    }
-
-    password.current = e.target.value;
+    passwordRef.current = e.target.value;
   };
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === '') {
-      alert('닉네임을 입력해주세요.');
-      return;
-    }
-
-    nickname.current = e.target.value;
+    nicknameRef.current = e.target.value;
   };
 
   const handleSignup = () => {
-    // 나중에 API 넣을 자리
-    navigate('/login');
+    // todo1 나중에 API 넣을 자리
+    navigate('/');
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const email = emailRef.current ?? '';
+    const pw = passwordRef.current ?? '';
+    const nickname = nicknameRef.current ?? '';
+
+    if (!email.includes('@')) {
+      alert('이메일 형식이 올바르지 않습니다.');
+      return;
+    }
+    if (!(pw.length >= 2 && pw.length <= 10)) {
+      alert('비밀번호는 2자 이상 10자 이하여야 합니다.');
+      return;
+    }
+
+    // todo2 닉네임 유효성 검사 로직 추가
+    handleSignup();
   };
 
   return (
     <Container>
       <ContentWrapper>
-        <SignupForm>
+        <SignupForm onSubmit={handleSubmit}>
           <p>이메일</p>
           <SignupInput type="email" placeholder="이메일을 입력해주세요" onChange={handleEmailChange} />
           <p>비밀번호</p>
           <SignupInput type="password" placeholder="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
           <p>닉네임</p>
           <SignupInput type="nickname" placeholder="닉네임을 입력해주세요" onChange={handleNicknameChange} />
-          <SignupButton onClick={handleSignup}>회원가입</SignupButton>
+          <SignupButton type="submit">회원가입</SignupButton>
         </SignupForm>
       </ContentWrapper>
     </Container>
