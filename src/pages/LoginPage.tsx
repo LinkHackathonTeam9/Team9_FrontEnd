@@ -37,6 +37,12 @@ const LoginInput = styled.input`
   border-radius: 5px;
   padding: 0 10px;
 `;
+
+const LoginInputContent = styled.p`
+  font-size: 14px;
+  color: #888888;
+`;
+
 const LoginButton = styled.button`
   width: 100%;
   padding: 10px 20px;
@@ -60,16 +66,11 @@ const SignUpButton = styled.button`
 `;
 
 const LoginPage = () => {
-  const emailRef = useRef<string>('');
-  const passwordRef = useRef<string>('');
   const navigate = useNavigate();
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    emailRef.current = e.target.value;
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    passwordRef.current = e.target.value;
+  const inputRefs = {
+    email: useRef<HTMLInputElement>(null),
+    password: useRef<HTMLInputElement>(null),
   };
 
   const handleLogin = () => {
@@ -81,18 +82,27 @@ const LoginPage = () => {
     navigate('/signup');
   };
 
+  const validate = (email: string, pw: string) => {
+    if (!email.includes('@')) {
+      alert('이메일 형식이 올바르지 않습니다.');
+      return false;
+    }
+
+    if (!(pw.length >= 2 && pw.length <= 10)) {
+      alert('비밀번호는 2자 이상 10자 이하여야 합니다.');
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const email = emailRef.current ?? '';
-    const pw = passwordRef.current ?? '';
+    const email = inputRefs.email.current?.value ?? '';
+    const pw = inputRefs.password.current?.value ?? '';
 
-    if (!email.includes('@')) {
-      alert('이메일 형식이 올바르지 않습니다.');
-      return;
-    }
-    if (!(pw.length >= 2 && pw.length <= 10)) {
-      alert('비밀번호는 2자 이상 10자 이하여야 합니다.');
+    if (!validate(email, pw)) {
       return;
     }
 
@@ -103,11 +113,13 @@ const LoginPage = () => {
     <Container>
       <ContentWrapper>
         <LoginForm onSubmit={handleSubmit}>
-          <LoginInput type="email" placeholder="이메일을 입력해주세요" onChange={handleEmailChange} />
-          <LoginInput type="password" placeholder="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
+          <LoginInput type="email" placeholder="이메일을 입력해주세요" />
+          <LoginInput type="password" placeholder="비밀번호를 입력해주세요" />
           <LoginButton type="submit">로그인</LoginButton>
-          <p>아직 회원이 아니신가요?</p>
-          <SignUpButton onClick={handleSignUp}>회원가입</SignUpButton>
+          <LoginInputContent>아직 회원이 아니신가요?</LoginInputContent>
+          <SignUpButton type="button" onClick={handleSignUp}>
+            회원가입
+          </SignUpButton>
         </LoginForm>
       </ContentWrapper>
     </Container>
