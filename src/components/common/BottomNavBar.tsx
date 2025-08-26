@@ -7,12 +7,14 @@ const BottomNavBarContainer = styled.nav`
   align-items: center;
   position: absolute;
   bottom: 0;
+  left: 0;
   box-sizing: border-box;
   width: 100%;
   height: 68px;
   background-color: #fbf8f1;
   border-top: 1px solid #e1ded7;
 `;
+
 const BottomNavBar = () => {
   return (
     <BottomNavBarContainer>
