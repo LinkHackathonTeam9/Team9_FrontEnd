@@ -117,7 +117,9 @@ const LoginPage = () => {
           <LoginInput type="password" placeholder="비밀번호를 입력해주세요" />
           <LoginButton type="submit">로그인</LoginButton>
           <LoginInputContent>아직 회원이 아니신가요?</LoginInputContent>
-          <SignUpButton onClick={handleSignUp}>회원가입</SignUpButton>
+          <SignUpButton type="button" onClick={handleSignUp}>
+            회원가입
+          </SignUpButton>
         </LoginForm>
       </ContentWrapper>
     </Container>
