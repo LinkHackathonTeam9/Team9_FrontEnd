@@ -30,6 +30,11 @@ const SignupForm = styled.form`
   gap: 10px;
 `;
 
+const SignupInputContent = styled.p`
+  font-size: 14px;
+  color: #333;
+`;
+
 const SignupInput = styled.input`
   width: 100%;
   height: 40px;
@@ -101,11 +106,11 @@ const SignupPage = () => {
     <Container>
       <ContentWrapper>
         <SignupForm onSubmit={handleSubmit}>
-          <p>이메일</p>
+          <SignupInputContent>이메일</SignupInputContent>
           <SignupInput type="email" ref={inputRefs.email} placeholder="이메일을 입력해주세요" />
-          <p>비밀번호</p>
+          <SignupInputContent>비밀번호</SignupInputContent>
           <SignupInput type="password" ref={inputRefs.password} placeholder="비밀번호를 입력해주세요" />
-          <p>닉네임</p>
+          <SignupInputContent>닉네임</SignupInputContent>
           <SignupInput type="nickname" ref={inputRefs.nickname} placeholder="닉네임을 입력해주세요" />
           <SignupButton type="submit">회원가입</SignupButton>
         </SignupForm>
