@@ -43,12 +43,32 @@ const SignupInput = styled.input`
   padding: 0 10px;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  pading: 0;
+`;
+
 const SignupButton = styled.button`
   width: 100%;
   padding: 10px 20px;
   font-size: 16px;
   color: white;
   background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
+const BackButton = styled.button`
+  width: 100%;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #888888;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -102,6 +122,10 @@ const SignupPage = () => {
     signUp();
   };
 
+  const handleBack = () => {
+    navigate('/');
+  };
+
   return (
     <Container>
       <ContentWrapper>
@@ -112,7 +136,12 @@ const SignupPage = () => {
           <SignupInput type="password" ref={inputRefs.password} placeholder="비밀번호를 입력해주세요" />
           <SignupInputContent>닉네임</SignupInputContent>
           <SignupInput type="nickname" ref={inputRefs.nickname} placeholder="닉네임을 입력해주세요" />
-          <SignupButton type="submit">회원가입</SignupButton>
+          <ButtonWrapper>
+            <BackButton type="button" onClick={handleBack}>
+              뒤로가기
+            </BackButton>
+            <SignupButton type="submit">회원가입</SignupButton>
+          </ButtonWrapper>
         </SignupForm>
       </ContentWrapper>
     </Container>
