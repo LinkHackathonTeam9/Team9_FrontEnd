@@ -50,47 +50,51 @@ const SignupButton = styled.button`
 `;
 
 const SignupPage = () => {
-  const emailRef = useRef<string>('');
-  const passwordRef = useRef<string>('');
-  const nicknameRef = useRef<string>('');
   const navigate = useNavigate();
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    emailRef.current = e.target.value;
+  const inputRefs = {
+    email: useRef<HTMLInputElement>(null),
+    password: useRef<HTMLInputElement>(null),
+    nickname: useRef<HTMLInputElement>(null),
   };
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    passwordRef.current = e.target.value;
-  };
-
-  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    nicknameRef.current = e.target.value;
-  };
-
-  const handleSignup = () => {
+  const signUp = () => {
     // todo1 나중에 API 넣을 자리
     alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
     navigate('/');
   };
 
+  const validate = (email: string, pw: string, nickname: string) => {
+    if (!email.includes('@')) {
+      alert('이메일 형식이 올바르지 않습니다.');
+      return false;
+    }
+
+    if (!(pw.length >= 2 && pw.length <= 10)) {
+      alert('비밀번호는 2자 이상 10자 이하여야 합니다.');
+      return false;
+    }
+
+    if (nickname.trim() === '') {
+      alert('닉네임을 입력해주세요.');
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const email = emailRef.current ?? '';
-    const pw = passwordRef.current ?? '';
-    const nickname = nicknameRef.current ?? '';
+    const email = inputRefs.email.current?.value ?? '';
+    const pw = inputRefs.password.current?.value ?? '';
+    const nickname = inputRefs.nickname.current?.value ?? '';
 
-    if (!email.includes('@')) {
-      alert('이메일 형식이 올바르지 않습니다.');
-      return;
-    }
-    if (!(pw.length >= 2 && pw.length <= 10)) {
-      alert('비밀번호는 2자 이상 10자 이하여야 합니다.');
+    if (!validate(email, pw, nickname)) {
       return;
     }
 
     // todo2 닉네임 유효성 검사 로직 추가
-    handleSignup();
+    signUp();
   };
 
   return (
@@ -98,11 +102,11 @@ const SignupPage = () => {
       <ContentWrapper>
         <SignupForm onSubmit={handleSubmit}>
           <p>이메일</p>
-          <SignupInput type="email" placeholder="이메일을 입력해주세요" onChange={handleEmailChange} />
+          <SignupInput type="email" ref={inputRefs.email} placeholder="이메일을 입력해주세요" />
           <p>비밀번호</p>
-          <SignupInput type="password" placeholder="비밀번호를 입력해주세요" onChange={handlePasswordChange} />
+          <SignupInput type="password" ref={inputRefs.password} placeholder="비밀번호를 입력해주세요" />
           <p>닉네임</p>
-          <SignupInput type="nickname" placeholder="닉네임을 입력해주세요" onChange={handleNicknameChange} />
+          <SignupInput type="nickname" ref={inputRefs.nickname} placeholder="닉네임을 입력해주세요" />
           <SignupButton type="submit">회원가입</SignupButton>
         </SignupForm>
       </ContentWrapper>
