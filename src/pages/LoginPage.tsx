@@ -1,25 +1,27 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { GGAMJA_COLOR } from '../styles/Colors.ts';
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 10px 20px;
-  box-sizing: border-box;
+const PageWrapper = styled.div`
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #faf8f5;
+  color: ${GGAMJA_COLOR.DARK_BROWN};
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  gap: 20px;
-  background-color: #fbf8f1;
+  align-items: center;
+  min-height: 100vh;
+  padding: 40px 20px 20px 20px;
+  box-sizing: border-box;
+  gap: 80px;
 `;
 
-const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
+const PageTitle = styled.h1`
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: ${GGAMJA_COLOR.DARK_BROWN};
 `;
 
 const LoginForm = styled.form`
@@ -27,7 +29,14 @@ const LoginForm = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 20px;
+`;
+
+const LoginInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 `;
 
 const LoginInput = styled.input`
@@ -36,6 +45,10 @@ const LoginInput = styled.input`
   border: 1px solid #e1ded7;
   border-radius: 5px;
   padding: 0 10px;
+  font-size: 12px;
+  border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 ${GGAMJA_COLOR.DARK_BROWN};
 `;
 
 const LoginInputContent = styled.p`
@@ -44,24 +57,37 @@ const LoginInputContent = styled.p`
 `;
 
 const LoginButton = styled.button`
-  width: 100%;
-  padding: 10px 20px;
-  font-size: 16px;
+  display: inline-block;
+  background-color: ${GGAMJA_COLOR.GREEN};
   color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 20px;
+  padding: 10px 20px;
+  text-decoration: none;
+  border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 ${GGAMJA_COLOR.DARK_BROWN};
   cursor: pointer;
 `;
 
+const SignUpContent = styled.p`
+  font-size: 12px;
+  color: #888888;
+  text-align: center;
+  line-height: 2.5;
+`;
+
 const SignUpButton = styled.button`
-  width: 100%;
-  padding: 10px 20px;
-  font-size: 16px;
+  display: inline-block;
+  background-color: ${GGAMJA_COLOR.LIGHT_BROWN};
   color: white;
-  background-color: #000;
-  border: none;
-  border-radius: 5px;
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 20px;
+  padding: 10px 20px;
+  text-decoration: none;
+  border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 ${GGAMJA_COLOR.DARK_BROWN};
   cursor: pointer;
 `;
 
@@ -110,19 +136,27 @@ const LoginPage = () => {
   };
 
   return (
-    <Container>
-      <ContentWrapper>
-        <LoginForm onSubmit={handleSubmit}>
+    <PageWrapper>
+      <PageTitle>커몬 깜자!</PageTitle>
+      <LoginForm onSubmit={handleSubmit}>
+        <LoginInputWrapper>
+          <LoginInputContent>회원이신가요? 로그인해주세요!</LoginInputContent>
           <LoginInput type="email" ref={inputRefs.email} placeholder="이메일을 입력해주세요" />
           <LoginInput type="password" ref={inputRefs.password} placeholder="비밀번호를 입력해주세요" />
           <LoginButton type="submit">로그인</LoginButton>
-          <LoginInputContent>아직 회원이 아니신가요?</LoginInputContent>
-          <SignUpButton type="button" onClick={handleSignUp}>
-            회원가입
-          </SignUpButton>
-        </LoginForm>
-      </ContentWrapper>
-    </Container>
+        </LoginInputWrapper>
+
+        <SignUpContent>
+          아직 회원이 아니신가요?
+          <br />
+          당장 가입해주세요!
+        </SignUpContent>
+
+        <SignUpButton type="button" onClick={handleSignUp}>
+          회원가입
+        </SignUpButton>
+      </LoginForm>
+    </PageWrapper>
   );
 };
 
