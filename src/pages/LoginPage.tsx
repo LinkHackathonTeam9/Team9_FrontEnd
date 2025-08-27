@@ -113,8 +113,8 @@ const LoginPage = () => {
     <Container>
       <ContentWrapper>
         <LoginForm onSubmit={handleSubmit}>
-          <LoginInput type="email" placeholder="이메일을 입력해주세요" />
-          <LoginInput type="password" placeholder="비밀번호를 입력해주세요" />
+          <LoginInput type="email" ref={inputRefs.email} placeholder="이메일을 입력해주세요" />
+          <LoginInput type="password" ref={inputRefs.password} placeholder="비밀번호를 입력해주세요" />
           <LoginButton type="submit">로그인</LoginButton>
           <LoginInputContent>아직 회원이 아니신가요?</LoginInputContent>
           <SignUpButton type="button" onClick={handleSignUp}>
