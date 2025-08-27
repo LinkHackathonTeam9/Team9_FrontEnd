@@ -1,6 +1,8 @@
 import BottomNavBar from '@components/common/BottomNavBar';
 import styled from '@emotion/styled';
-import EducationItem from '@components/education/EducationItem.tsx';
+import EducationItem from '@components/education/EducationItem';
+import { CARD_CATEGORY_KO } from '@utils/index';
+import { CARD_CATEGORY } from '@@types/index';
 
 const Container = styled.div`
   width: 100%;
@@ -14,13 +16,10 @@ const Container = styled.div`
 `;
 
 const EducationPage = () => {
-  // todo fetch categories from server
-  const dummyCategories = ['경제', '과학', 'IT', '교양', '어학', '기타'];
-
   return (
     <Container>
-      {dummyCategories.map((category) => (
-        <EducationItem category={category} key={category} />
+      {Object.values(CARD_CATEGORY).map((category) => (
+        <EducationItem category={CARD_CATEGORY_KO[category]} key={category} />
       ))}
       <BottomNavBar />
     </Container>
