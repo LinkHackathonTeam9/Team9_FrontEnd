@@ -56,7 +56,7 @@ const BottomNavBar = () => {
         <Icon className="material-symbols-outlined">school</Icon>
         <Label>Education</Label>
       </StyledNavLink>
-      <StyledNavLink to="/quiz">
+      <StyledNavLink to="/quiz-home">
         <Icon className="material-symbols-outlined">quiz</Icon>
         <Label>Quiz</Label>
       </StyledNavLink>
