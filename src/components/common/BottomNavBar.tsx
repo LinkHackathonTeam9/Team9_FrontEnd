@@ -48,7 +48,7 @@ const Label = styled.span`
 const BottomNavBar = () => {
   return (
     <NavContainer>
-      <StyledNavLink to="/">
+      <StyledNavLink to="/home">
         <Icon className="material-symbols-outlined">home</Icon>
         <Label>Home</Label>
       </StyledNavLink>
