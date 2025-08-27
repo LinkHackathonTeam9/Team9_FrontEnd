@@ -1,25 +1,41 @@
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { GGAMJA_COLOR } from '../styles/Colors.ts';
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 10px 20px;
-  box-sizing: border-box;
+const PageWrapper = styled.div`
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #faf8f5;
+  color: ${GGAMJA_COLOR.DARK_BROWN};
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  gap: 20px;
-  background-color: #fbf8f1;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
 `;
 
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 100px;
+  gap: 20px;
+`;
+
+const Title = styled.h1`
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 32px;
+  color: ${GGAMJA_COLOR.DARK_BROWN};
+  margin-bottom: 12px;
+`;
+
+const Subtitle = styled.p`
+  font-size: 14px;
+  color: ${GGAMJA_COLOR.LIGHT_BROWN};
+  line-height: 1.6;
+  margin-bottom: 40px;
 `;
 
 const SignupForm = styled.form`
@@ -28,49 +44,59 @@ const SignupForm = styled.form`
   align-items: center;
   justify-content: center;
   gap: 10px;
+  padding: 20px;
 `;
 
 const SignupInputContent = styled.p`
   font-size: 14px;
-  color: #333;
+  color: ${GGAMJA_COLOR.DARK_BROWN};
+  text-align: left;
+  width: 100%;
 `;
 
 const SignupInput = styled.input`
   width: 100%;
   height: 40px;
-  border: 1px solid #e1ded7;
-  border-radius: 5px;
   padding: 0 10px;
+  font-size: 12px;
+  border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 ${GGAMJA_COLOR.DARK_BROWN};
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   width: 100%;
-  pading: 0;
+  padding: 40px 0 0 0;
 `;
 
 const SignupButton = styled.button`
-  width: 100%;
   padding: 10px 20px;
+  font-family: 'Pixelify Sans', sans-serif;
   font-size: 16px;
   color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
+  background-color: ${GGAMJA_COLOR.GREEN};
+  text-decoration: none;
+  border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 ${GGAMJA_COLOR.DARK_BROWN};
   cursor: pointer;
 `;
 
 const BackButton = styled.button`
-  width: 100%;
   padding: 10px 20px;
+  font-family: 'Pixelify Sans', sans-serif;
   font-size: 16px;
   color: white;
-  background-color: #888888;
-  border: none;
-  border-radius: 5px;
+  background-color: ${GGAMJA_COLOR.LIGHT_BROWN};
+  text-decoration: none;
+  border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 ${GGAMJA_COLOR.DARK_BROWN};
   cursor: pointer;
 `;
 
@@ -127,14 +153,16 @@ const SignupPage = () => {
   };
 
   return (
-    <Container>
+    <PageWrapper>
       <ContentWrapper>
         <SignupForm onSubmit={handleSubmit}>
-          <SignupInputContent>이메일</SignupInputContent>
+          <Title>회원가입</Title>
+          <Subtitle>회원가입을 위해 아래 정보를 입력해주세요.</Subtitle>
+          <SignupInputContent>* 이메일</SignupInputContent>
           <SignupInput type="email" ref={inputRefs.email} placeholder="이메일을 입력해주세요" />
-          <SignupInputContent>비밀번호</SignupInputContent>
+          <SignupInputContent>* 비밀번호</SignupInputContent>
           <SignupInput type="password" ref={inputRefs.password} placeholder="비밀번호를 입력해주세요" />
-          <SignupInputContent>닉네임</SignupInputContent>
+          <SignupInputContent>* 닉네임</SignupInputContent>
           <SignupInput type="nickname" ref={inputRefs.nickname} placeholder="닉네임을 입력해주세요" />
           <ButtonWrapper>
             <BackButton type="button" onClick={handleBack}>
@@ -144,7 +172,7 @@ const SignupPage = () => {
           </ButtonWrapper>
         </SignupForm>
       </ContentWrapper>
-    </Container>
+    </PageWrapper>
   );
 };
 
