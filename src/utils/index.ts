@@ -8,3 +8,12 @@ export const CARD_CATEGORY_KO: { [key in CardCategory]: string } = {
   HISTORY: '역사',
   COMMON_KNOWLEDGE: '상식',
 };
+
+export const categoryMaterialIcons: { [key: string]: string } = {
+  CAPITAL: 'account_balance',
+  PROVERB: 'menu_book',
+  ENGLISH: 'abc',
+  SCIENCE: 'science',
+  HISTORY: 'history_edu',
+  COMMON_KNOWLEDGE: 'lightbulb',
+};
