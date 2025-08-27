@@ -1,28 +1,70 @@
 import { NavLink } from 'react-router-dom';
 import styled from '@emotion/styled';
 
-const BottomNavBarContainer = styled.nav`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  position: absolute;
+/*
+  New Theme Variables:
+  --primary-color: #84CC16; (lime green)
+  --text-secondary: #8B7E74;
+  --border-color: #4D403D;
+*/
+
+const NavContainer = styled.nav`
+  position: fixed;
   bottom: 0;
   left: 0;
-  box-sizing: border-box;
   width: 100%;
-  height: 68px;
-  background-color: #fbf8f1;
-  border-top: 1px solid #e1ded7;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  border-top: 2px solid #4d403d;
+  font-family: 'Noto Sans KR', sans-serif;
+`;
+
+const StyledNavLink = styled(NavLink)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #8b7e74;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &.active {
+    color: #84cc16;
+    font-weight: 700;
+  }
+`;
+
+const Icon = styled.span`
+  font-size: 24px;
+`;
+
+const Label = styled.span`
+  margin-top: 4px;
 `;
 
 const BottomNavBar = () => {
   return (
-    <BottomNavBarContainer>
-      <NavLink to="/">Home</NavLink>
-      <NavLink to="/education">Education</NavLink>
-      <NavLink to="/quiz">Quiz</NavLink>
-      <NavLink to="/profile">Profile</NavLink>
-    </BottomNavBarContainer>
+    <NavContainer>
+      <StyledNavLink to="/">
+        <Icon className="material-symbols-outlined">home</Icon>
+        <Label>Home</Label>
+      </StyledNavLink>
+      <StyledNavLink to="/education">
+        <Icon className="material-symbols-outlined">school</Icon>
+        <Label>Education</Label>
+      </StyledNavLink>
+      <StyledNavLink to="/quiz">
+        <Icon className="material-symbols-outlined">quiz</Icon>
+        <Label>Quiz</Label>
+      </StyledNavLink>
+      <StyledNavLink to="/profile">
+        <Icon className="material-symbols-outlined">person</Icon>
+        <Label>Profile</Label>
+      </StyledNavLink>
+    </NavContainer>
   );
 };
 
