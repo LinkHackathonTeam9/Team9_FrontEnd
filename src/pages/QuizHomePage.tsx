@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import BottomNavBar from '@components/common/BottomNavBar';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
+import { useEffect, useState } from 'react';
+import useTodayQuiz from '@hooks/useTodayQuiz.tsx';
 
 const PageWrapper = styled.div`
   background-color: #faf8f5;
@@ -25,7 +27,7 @@ const ContentContainer = styled.main`
   max-width: 400px;
 `;
 
-const QuizIcon = styled.span`
+const Icon = styled.span`
   font-size: 80px;
   color: ${GGAMJA_COLOR.GREEN};
   margin-bottom: 20px;
@@ -42,9 +44,10 @@ const Subtitle = styled.p`
   color: ${GGAMJA_COLOR.LIGHT_BROWN};
   line-height: 1.6;
   margin-bottom: 40px;
+  white-space: pre;
 `;
 
-const QuizStartButton = styled(Link)`
+const StyledLink = styled(Link)`
   display: inline-block;
   background-color: ${GGAMJA_COLOR.GREEN};
   color: white;
@@ -58,14 +61,43 @@ const QuizStartButton = styled(Link)`
 `;
 
 const QuizHomePage = () => {
-  return (
-    <PageWrapper>
+  const [isSolved, setIsSolved] = useState<boolean>(false);
+  const { checkTodayQuizSolved } = useTodayQuiz();
+
+  const getQuizStatus = async () => {
+    const solved = await checkTodayQuizSolved();
+    setIsSolved(solved);
+  };
+
+  useEffect(() => {
+    getQuizStatus();
+  }, []);
+
+  const renderContent = () => {
+    if (isSolved) {
+      return (
+        <ContentContainer>
+          <Icon className="material-symbols-outlined">task_alt</Icon>
+          <Title>퀴즈 완료!</Title>
+          <Subtitle>{'오늘의 퀴즈를 이미 해결했습니다.\n내일 다시 만나요!'}</Subtitle>
+          <StyledLink to="/profile">퀴즈 기록 보기</StyledLink>
+        </ContentContainer>
+      );
+    }
+
+    return (
       <ContentContainer>
-        <QuizIcon className="material-symbols-outlined">quiz</QuizIcon>
+        <Icon className="material-symbols-outlined">quiz</Icon>
         <Title>퀴즈를 시작해보세요!</Title>
         <Subtitle>오늘의 퀴즈를 풀고 지식을 넓혀보세요.</Subtitle>
-        <QuizStartButton to="/quiz">퀴즈 시작</QuizStartButton>
+        <StyledLink to="/quiz">퀴즈 시작</StyledLink>
       </ContentContainer>
+    );
+  };
+
+  return (
+    <PageWrapper>
+      {renderContent()}
       <BottomNavBar />
     </PageWrapper>
   );
