@@ -129,9 +129,9 @@ const UserNicknameText = styled.p`
 `;
 
 const UserCharacterNameText = styled.p`
-  font-size: 16px;
+  font-size: 20px;
   color: ${GGAMJA_COLOR.LIGHT_BROWN};
-  margin-top: 8px;
+
   line-height: 1.5;
 `;
 
@@ -148,20 +148,20 @@ const UserStatusContentWrapper = styled.div`
 `;
 
 const UserLevelContentTitle = styled.p`
-  font-size: 16px;
+  font-size: 20px;
   color: ${GGAMJA_COLOR.LIGHT_BROWN};
-  margin: 0;
-  padding: 0 0 20px 0;
   line-height: 1.5;
-  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   width: 100%;
 `;
 
 const UserStatusContentTitle = styled.p`
-  font-size: 16px;
+  font-size: 20px;
   color: ${GGAMJA_COLOR.LIGHT_BROWN};
   line-height: 1.5;
-  padding: 10px 0 10px 0;
+  padding: 0 0 10px 0;
   margin: 0;
 `;
 
@@ -279,9 +279,12 @@ const HomePage = () => {
             </GrassBackgroundWrapper>
           </UserCharacterWrapper>
           <UserNicknameText>이름 : {nickname}</UserNicknameText>
-          <UserCharacterNameText>{characterName}</UserCharacterNameText>
+
           <UserStatusContentWrapper>
-            <UserLevelContentTitle>레벨 {level}</UserLevelContentTitle>
+            <UserLevelContentTitle>
+              레벨 {level}
+              <UserCharacterNameText>{characterName}</UserCharacterNameText>
+            </UserLevelContentTitle>
             <UserStatusContentTitle>현재 경험치</UserStatusContentTitle>
             <UserStatusContentTitle>
               {points} / {endPoint}
