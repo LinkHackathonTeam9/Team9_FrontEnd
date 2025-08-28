@@ -45,6 +45,9 @@ const UserStatusWrapper = styled.div`
 const UserCharacterWrapper = styled.div`
   width: 200px;
   height: 200px;
+  position: relative;
+  display: flex;
+  justify-content: center;
 `;
 
 const floating = keyframes`
@@ -64,6 +67,25 @@ const UserCharacterImage = styled.img`
   height: 100%;
   object-fit: contain;
   animation: ${floating} 1.5s ease-in-out infinite;
+`;
+
+const SpeechBubble = styled.div<{ top: string; left: string }>`
+  position: absolute;
+  top: ${({ top }) => top};
+  left: ${({ left }) => left};
+  background-color: ${GGAMJA_COLOR.DARK_BROWN};
+  color: white;
+  padding: 10px 15px;
+  border-radius: 15px;
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 10;
+  width: max-content;
+  transform: translate(-50%, -50%);
+
+  &.visible {
+    opacity: 1;
+  }
 `;
 
 const UserNicknameText = styled.p`
@@ -109,6 +131,19 @@ const UserStatusContentTitle = styled.p`
   margin: 0;
 `;
 
+const encouragingMessages = [
+  '오늘도 힘내세요!',
+  '잘하고 있어요!',
+  '최고예요!',
+  '응원할게요!',
+  '멋져요!',
+  '포기하지 마세요!',
+  '오늘 하루도 화이팅!',
+  '넌 할 수 있어!',
+  '매일매일 성장하는 당신을 응원해요!',
+  '지금처럼만 꾸준히!',
+];
+
 const HomePage = () => {
   const { fetchHome } = useHome();
   const [nickname, setNickname] = useState<string>('');
@@ -120,6 +155,9 @@ const HomePage = () => {
   const [characterUrl, setCharacterUrl] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
   const [realtimeCookies] = useCookies();
+  const [bubbleVisible, setBubbleVisible] = useState(false);
+  const [bubbleMessage, setBubbleMessage] = useState('');
+  const [bubblePosition, setBubblePosition] = useState({ top: '0px', left: '0px' });
 
   useEffect(() => {
     const HomeLoading = async () => {
@@ -140,6 +178,31 @@ const HomePage = () => {
       openPopup();
     }
   }, [realtimeCookies]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const messageIndex = Math.floor(Math.random() * encouragingMessages.length);
+      setBubbleMessage(encouragingMessages[messageIndex]);
+
+      const angle = (5 * Math.PI) / 4 + Math.random() * (Math.PI / 2);
+      const radius = 120;
+      const x = 100 + radius * Math.cos(angle);
+      const y = 100 + radius * Math.sin(angle);
+
+      setBubblePosition({
+        top: `${y}px`,
+        left: `${x}px`,
+      });
+
+      setBubbleVisible(true);
+
+      setTimeout(() => {
+        setBubbleVisible(false);
+      }, 5000);
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const isValidPopup = () => {
     const cookies = new Cookies();
@@ -176,6 +239,13 @@ const HomePage = () => {
         </Header>
         <UserStatusWrapper>
           <UserCharacterWrapper>
+            <SpeechBubble
+              top={bubblePosition.top}
+              left={bubblePosition.left}
+              className={bubbleVisible ? 'visible' : ''}
+            >
+              {bubbleMessage}
+            </SpeechBubble>
             <UserCharacterImage src={characterUrl} alt="캐릭터" />
           </UserCharacterWrapper>
           <UserNicknameText>이름 : {nickname}</UserNicknameText>
