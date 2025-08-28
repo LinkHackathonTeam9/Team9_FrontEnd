@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import type { Card } from '@@types/index.ts';
 import { CARD_CATEGORY_KO, difficultyText } from '@utils/index.ts';
 import useCard from '@hooks/useCard.tsx';
+import { GGAMJA_COLOR } from '../../styles/Colors.ts';
 
 const CardScene = styled.div`
   perspective: 1000px;
@@ -76,20 +77,16 @@ const CardTitle = styled.div`
 `;
 
 const ActionButton = styled.button`
-  background-color: #007bff;
+  display: inline-block;
+  background-color: ${GGAMJA_COLOR.GREEN};
   color: white;
-  border: none;
-  padding: 12px 20px;
+  font-size: 20px;
+  padding: 16px 40px;
+  text-decoration: none;
+  border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
   border-radius: 8px;
+  box-shadow: 4px 4px 0 ${GGAMJA_COLOR.DARK_BROWN};
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  align-self: center;
-  width: 80%;
-
-  &:hover {
-    background-color: #0056b3;
-  }
 `;
 
 const InfoTitle = styled.div`
