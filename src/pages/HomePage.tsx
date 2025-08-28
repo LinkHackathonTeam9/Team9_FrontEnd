@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import type { HomeResponse } from '@@types/index.ts';
 import useHome from '@hooks/useHome.tsx';
 import BottomNavBar from '@components/common/BottomNavBar';
 import ProgressBar from '@components/home/ProgressBar.tsx';
