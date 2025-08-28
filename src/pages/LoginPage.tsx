@@ -158,7 +158,7 @@ const LoginPage = () => {
     <PageWrapper>
       <PageTitle>Comm'on 깜자!</PageTitle>
       <PageTitleImageWrapper>
-        <PageTitleImage src="https://ggamja-level-images.s3.ap-northeast-2.amazonaws.com/level1.png" alt="깜자" />
+        <PageTitleImage src="https://ggamja-images.s3.ap-northeast-2.amazonaws.com/level1.png" alt="깜자" />
       </PageTitleImageWrapper>
       <LoginForm onSubmit={handleSubmit}>
         <LoginInputWrapper>
