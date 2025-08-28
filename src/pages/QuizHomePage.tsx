@@ -4,7 +4,6 @@ import BottomNavBar from '@components/common/BottomNavBar';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
 
 const PageWrapper = styled.div`
-  font-family: 'Noto Sans KR', sans-serif;
   background-color: #faf8f5;
   color: ${GGAMJA_COLOR.DARK_BROWN};
   display: flex;
@@ -33,7 +32,6 @@ const QuizIcon = styled.span`
 `;
 
 const Title = styled.h1`
-  font-family: 'Pixelify Sans', sans-serif;
   font-size: 32px;
   color: ${GGAMJA_COLOR.DARK_BROWN};
   margin-bottom: 12px;
@@ -50,7 +48,6 @@ const QuizStartButton = styled(Link)`
   display: inline-block;
   background-color: ${GGAMJA_COLOR.GREEN};
   color: white;
-  font-family: 'Pixelify Sans', sans-serif;
   font-size: 20px;
   padding: 16px 40px;
   text-decoration: none;
