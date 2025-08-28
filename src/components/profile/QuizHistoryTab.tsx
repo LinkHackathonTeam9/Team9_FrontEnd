@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
-import type { PaginationResponse, QuizLog } from '@@types/index.ts';
+import type { DetailQuizLog, PaginationResponse, QuizLog } from '@@types/index.ts';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { defaultPaginationValue } from '@@types/defaultValues.ts';
 import useQuizLog from '@hooks/useQuizLog.tsx';
 import { CARD_CATEGORY_KO, categoryMaterialIcons } from '@utils/index.ts';
+import Modal from '@components/common/Modal.tsx';
+import QuizHistoryDetail from './details/QuizHistoryDetail.tsx';
 
 export const TabContent = styled.div<{ isActive: boolean }>`
   display: ${({ isActive }) => (isActive ? 'block' : 'none')};
@@ -19,6 +21,7 @@ export const HistoryItem = styled.div`
   padding: 16px;
   margin-bottom: 16px;
   box-shadow: 4px 4px 0px #4d403d;
+  cursor: pointer;
 `;
 
 export const HistoryIcon = styled.span`
@@ -54,7 +57,9 @@ interface QuizHistoryTabProps {
 const QuizHistoryTab = ({ isActive }: QuizHistoryTabProps) => {
   const [response, setResponse] = useState<PaginationResponse<QuizLog[]>>(defaultPaginationValue);
   const [quizlogs, setQuizlogs] = useState<QuizLog[]>([]);
-  const { getQuizLogs } = useQuizLog();
+  const { getQuizLogs, getDetailQuizLog } = useQuizLog();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedLog, setSelectedLog] = useState<DetailQuizLog | null>(null);
 
   useEffect(() => {
     fetchMoreData();
@@ -67,11 +72,17 @@ const QuizHistoryTab = ({ isActive }: QuizHistoryTabProps) => {
     setResponse(res);
   };
 
+  const handleItemClick = async (log: QuizLog) => {
+    const quizlog = await getDetailQuizLog(log.quizLogId);
+    setSelectedLog(quizlog);
+    setIsModalOpen(true);
+  };
+
   return (
     <TabContent isActive={isActive}>
       <InfiniteScroll next={fetchMoreData} hasMore={!response.last} loader={null} dataLength={quizlogs.length}>
         {quizlogs.map((item, index) => (
-          <HistoryItem key={index}>
+          <HistoryItem key={index} onClick={() => handleItemClick(item)}>
             <HistoryIcon className="material-symbols-outlined">{categoryMaterialIcons[item.category]}</HistoryIcon>
             <HistoryDetails>
               <h3>{CARD_CATEGORY_KO[item.category]} 퀴즈 완료!</h3>
@@ -82,6 +93,9 @@ const QuizHistoryTab = ({ isActive }: QuizHistoryTabProps) => {
           </HistoryItem>
         ))}
       </InfiniteScroll>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        {selectedLog && <QuizHistoryDetail quizLog={selectedLog} />}
+      </Modal>
     </TabContent>
   );
 };

@@ -1,6 +1,6 @@
 import useApi from '@hooks/useApi.tsx';
-import type { ApiResponse, PaginationResponse, QuizLog } from '@@types/index.ts';
-import { defaultPaginationValue } from '@@types/defaultValues.ts';
+import type { ApiResponse, DetailQuizLog, PaginationResponse, QuizLog } from '@@types/index.ts';
+import { defaultDetailQuizLogValue, defaultPaginationValue } from '@@types/defaultValues.ts';
 
 function useQuizLog() {
   const { api } = useApi();
@@ -12,7 +12,14 @@ function useQuizLog() {
       .catch(() => defaultPaginationValue);
   };
 
-  return { getQuizLogs };
+  const getDetailQuizLog = (quizLogId: number) => {
+    return api
+      .get<ApiResponse<DetailQuizLog>>(`/quizlogs/${quizLogId}`)
+      .then((response) => response.data.data)
+      .catch(() => defaultDetailQuizLogValue);
+  };
+
+  return { getQuizLogs, getDetailQuizLog };
 }
 
 export default useQuizLog;

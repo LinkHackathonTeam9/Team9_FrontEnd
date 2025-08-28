@@ -103,13 +103,30 @@ export interface DetailQuizLog {
   isCorrect: boolean;
   selectedAnswer: string;
   date: string;
-  quiz: Quiz;
+  quiz: {
+    quizId: number;
+    question: string;
+    answer: string;
+    option1: string;
+    option2: string;
+    option3: string;
+  };
 }
 
 export interface StudyLog {
   logId: number;
   category: CardCategory;
   title: string;
+  difficulty: number;
+  date: string;
+}
+
+export interface DetailStudyLog {
+  logId: number;
+  cardId: number;
+  category: CardCategory;
+  title: string;
+  meaning: string;
   difficulty: number;
   date: string;
 }
