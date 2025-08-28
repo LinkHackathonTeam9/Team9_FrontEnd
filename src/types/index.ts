@@ -27,3 +27,11 @@ export interface LoginResponse {
   bonusGiven: boolean;
   levelChanged: boolean;
 }
+
+export interface Quiz {
+  todayQuizId: number;
+  cardId: number;
+  question: string;
+  answer: string;
+  options: string[];
+}
