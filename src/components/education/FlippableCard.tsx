@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import type { Card } from '@@types/index.ts';
+import { CARD_CATEGORY_KO } from '@utils/index.ts';
+import useCard from '@hooks/useCard.tsx';
 
 const CardScene = styled.div`
   perspective: 1000px;
@@ -98,23 +101,23 @@ const CardDescription = styled(CardText)`
   flex-grow: 1;
 `;
 
-// Dummy Data
-const dummyCardData = {
-  category: 'JavaScript',
-  title: 'JavaScript의 호이스팅(Hoisting)에 대해 설명해주세요.',
-  answer:
-    '호이스팅은 변수 및 함수 선언이 해당 스코프의 최상단으로 끌어올려지는 것처럼 동작하는 것을 의미합니다. var 키워드로 선언된 변수와 함수 선언문이 해당됩니다.',
-  difficulty: '중급',
-  description:
-    'var 변수는 선언만 끌어올려지고 할당은 제자리에 남아 undefined로 초기화됩니다. let과 const는 TDZ(Temporal Dead Zone)의 영향을 받아 호이스팅이 다르게 동작합니다.',
-};
-
 interface FlippableCardProps {
   onClose: () => void;
+  cardData: Card;
+  learned: boolean;
 }
 
-const FlippableCard: React.FC<FlippableCardProps> = ({ onClose }) => {
+const FlippableCard: React.FC<FlippableCardProps> = ({ onClose, cardData, learned }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const { completeCard } = useCard();
+  const closeText = learned ? '닫기' : '학습 완료';
+
+  const completeAndClose = async () => {
+    if (!learned) {
+      await completeCard(cardData.id);
+    }
+    onClose();
+  };
 
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
@@ -125,22 +128,20 @@ const FlippableCard: React.FC<FlippableCardProps> = ({ onClose }) => {
       <CardContainer isFlipped={isFlipped}>
         <CardFront>
           <CardHeader>
-            <CardCategory>{dummyCardData.category}</CardCategory>
-            <CardDifficulty>{dummyCardData.difficulty}</CardDifficulty>
+            <CardCategory>{CARD_CATEGORY_KO[cardData.category]}</CardCategory>
+            <CardDifficulty>{cardData.difficulty}</CardDifficulty>
           </CardHeader>
-          <CardTitle>{dummyCardData.title}</CardTitle>
-          <ActionButton onClick={handleFlip}>정답 확인하기</ActionButton>
+          <CardTitle>{cardData.title}</CardTitle>
+          <ActionButton onClick={handleFlip}>뜻 확인하기</ActionButton>
         </CardFront>
 
         <CardBack>
           <CardHeader>
-            <CardCategory>{dummyCardData.category}</CardCategory>
+            <CardCategory>{CARD_CATEGORY_KO[cardData.category]}</CardCategory>
           </CardHeader>
-          <InfoTitle>정답</InfoTitle>
-          <CardText>{dummyCardData.answer}</CardText>
           <InfoTitle>해설</InfoTitle>
-          <CardDescription>{dummyCardData.description}</CardDescription>
-          <ActionButton onClick={onClose}>학습 완료</ActionButton>
+          <CardDescription>{cardData.meaning}</CardDescription>
+          <ActionButton onClick={completeAndClose}>{closeText}</ActionButton>
         </CardBack>
       </CardContainer>
     </CardScene>
