@@ -5,7 +5,7 @@ export const defaultQuizValue: Quiz = {
   cardId: 0,
   question: 'Loading...',
   answer: 'Loading...',
-  options: ['Loading...', 'Loading...', 'Loading...', 'Loading...'],
+  options: ['Loading1', 'Loading2', 'Loading3', 'Loading4'],
 };
 
 export const defaultCardValue: Card = {
