@@ -130,3 +130,13 @@ export interface DetailStudyLog {
   difficulty: number;
   date: string;
 }
+
+export interface AttendanceResponse {
+  weekStartDate: string;
+  days: [
+    {
+      attended: boolean;
+    },
+  ];
+  allCompleted: boolean;
+}
