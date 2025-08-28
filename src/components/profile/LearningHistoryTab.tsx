@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
-import type { PaginationResponse, StudyLog } from '@@types/index.ts';
-import { defaultPaginationValue } from '@@types/defaultValues.ts';
+import type { DetailStudyLog, PaginationResponse, StudyLog } from '@@types/index.ts';
+import { defaultDetailStudylogValue, defaultPaginationValue } from '@@types/defaultValues.ts';
 import useStudylogs from '@hooks/useStudylogs.tsx';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { CARD_CATEGORY_KO, categoryMaterialIcons } from '@utils/index.ts';
+import Modal from '@components/common/Modal.tsx';
+import LearningHistoryDetail from './details/LearningHistoryDetail.tsx';
 
 export const TabContent = styled.div<{ isActive: boolean }>`
   display: ${({ isActive }) => (isActive ? 'block' : 'none')};
@@ -19,6 +21,7 @@ export const HistoryItem = styled.div`
   padding: 16px;
   margin-bottom: 16px;
   box-shadow: 4px 4px 0px #4d403d;
+  cursor: pointer;
 `;
 
 export const HistoryIcon = styled.span`
@@ -49,7 +52,9 @@ interface LearningHistoryTabProps {
 const LearningHistoryTab = ({ isActive }: LearningHistoryTabProps) => {
   const [response, setResponse] = useState<PaginationResponse<StudyLog[]>>(defaultPaginationValue);
   const [studylogs, setStudylods] = useState<StudyLog[]>([]);
-  const { fetchStudylogs } = useStudylogs();
+  const { fetchStudylogs, fetchDetailStudylog } = useStudylogs();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedLog, setSelectedLog] = useState<DetailStudyLog>(defaultDetailStudylogValue);
 
   const fetchMoreData = async () => {
     const nextPage = response.pageable.pageNumber + 1;
@@ -62,11 +67,17 @@ const LearningHistoryTab = ({ isActive }: LearningHistoryTabProps) => {
     fetchMoreData();
   }, []);
 
+  const handleItemClick = async (log: StudyLog) => {
+    const card = await fetchDetailStudylog(log.logId);
+    setSelectedLog(card);
+    setIsModalOpen(true);
+  };
+
   return (
     <TabContent isActive={isActive}>
       <InfiniteScroll next={fetchMoreData} hasMore={!response.last} loader={null} dataLength={studylogs.length}>
         {studylogs.map((item, index) => (
-          <HistoryItem key={index}>
+          <HistoryItem key={index} onClick={() => handleItemClick(item)}>
             <HistoryIcon className="material-symbols-outlined">{categoryMaterialIcons[item.category]}</HistoryIcon>
             <HistoryDetails>
               <h3>{item.title}</h3>
@@ -77,6 +88,9 @@ const LearningHistoryTab = ({ isActive }: LearningHistoryTabProps) => {
           </HistoryItem>
         ))}
       </InfiniteScroll>
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        {selectedLog && <LearningHistoryDetail detailStudylog={selectedLog} />}
+      </Modal>
     </TabContent>
   );
 };

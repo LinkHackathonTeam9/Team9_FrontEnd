@@ -1,6 +1,6 @@
 import useApi from '@hooks/useApi.tsx';
-import type { ApiResponse, PaginationResponse, StudyLog } from '@@types/index.ts';
-import { defaultPaginationValue } from '@@types/defaultValues.ts';
+import type { ApiResponse, DetailStudyLog, PaginationResponse, StudyLog } from '@@types/index.ts';
+import { defaultDetailStudylogValue, defaultPaginationValue } from '@@types/defaultValues.ts';
 
 function useStudylogs() {
   const { api } = useApi();
@@ -12,7 +12,14 @@ function useStudylogs() {
       .catch(() => defaultPaginationValue);
   };
 
-  return { fetchStudylogs };
+  const fetchDetailStudylog = (studylogId: number) => {
+    return api
+      .get<ApiResponse<DetailStudyLog>>(`/studylogs/${studylogId}`)
+      .then((response) => response.data.data)
+      .catch(() => defaultDetailStudylogValue);
+  };
+
+  return { fetchStudylogs, fetchDetailStudylog };
 }
 
 export default useStudylogs;
