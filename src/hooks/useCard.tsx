@@ -1,5 +1,5 @@
 import useApi from '@hooks/useApi.tsx';
-import type { ApiResponse, Card } from '@@types/index.ts';
+import type { ApiResponse, Card, CardCategory } from '@@types/index.ts';
 
 function useCard() {
   const { api } = useApi();
@@ -8,7 +8,19 @@ function useCard() {
     return api.get<ApiResponse<Card>>(`/cards/${cardId}`).then((response) => response.data.data);
   };
 
-  return { fetchCard };
+  const fetchTodayCard = (category: CardCategory) => {
+    return api.get<ApiResponse<Card>>(`/cards/todaycards/${category}`).then((response) => response.data.data);
+  };
+
+  const fetchLearnedCategories = () => {
+    return api.get<ApiResponse<CardCategory[]>>('/cards/todaycards/category').then((response) => response.data.data);
+  };
+
+  const completeCard = (cardId: number) => {
+    return api.post(`/cards/complete${cardId}`);
+  };
+
+  return { fetchCard, fetchTodayCard, completeCard, fetchLearnedCategories };
 }
 
 export default useCard;
