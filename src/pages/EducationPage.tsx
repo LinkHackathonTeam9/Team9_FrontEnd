@@ -34,6 +34,7 @@ const PageSubtitle = styled.p`
   color: ${GGAMJA_COLOR.LIGHT_BROWN};
   margin-top: 8px;
   line-height: 1.5;
+  word-break: keep-all;
 `;
 
 const GridContainer = styled.main`

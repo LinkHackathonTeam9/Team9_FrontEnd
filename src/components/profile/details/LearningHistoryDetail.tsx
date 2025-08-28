@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import type { DetailStudyLog } from '@@types/index.ts';
 import { CARD_CATEGORY_KO } from '@utils/index.ts';
+import { GGAMJA_COLOR } from '../../../styles/Colors.ts';
 
 const CardScene = styled.div`
   perspective: 1000px;
@@ -33,7 +34,7 @@ const CardFace = styled.div`
 const CardHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #6c757d;
 `;
 
@@ -43,9 +44,17 @@ const CardCategory = styled.span`
 
 const InfoTitle = styled.div`
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: #495057;
   margin-bottom: 5px;
+`;
+
+const CardDescriptionContainer = styled.div`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
 `;
 
 const CardText = styled.div`
@@ -55,15 +64,27 @@ const CardText = styled.div`
   line-height: 1.6;
 `;
 
-const CardDescription = styled(CardText)`
-  flex-grow: 1;
+const CardDescription = styled(CardText)``;
+
+const ActionButton = styled.button`
+  display: inline-block;
+  background-color: ${GGAMJA_COLOR.GREEN};
+  color: white;
+  font-size: 20px;
+  padding: 16px 40px;
+  text-decoration: none;
+  border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 ${GGAMJA_COLOR.DARK_BROWN};
+  cursor: pointer;
 `;
 
 interface LearningHistoryDetailProps {
   detailStudylog: DetailStudyLog;
+  onClose: () => void;
 }
 
-const LearningHistoryDetail = ({ detailStudylog }: LearningHistoryDetailProps) => {
+const LearningHistoryDetail = ({ detailStudylog, onClose }: LearningHistoryDetailProps) => {
   return (
     <CardScene>
       <CardContainer>
@@ -71,8 +92,11 @@ const LearningHistoryDetail = ({ detailStudylog }: LearningHistoryDetailProps) =
           <CardHeader>
             <CardCategory>{CARD_CATEGORY_KO[detailStudylog.category]}</CardCategory>
           </CardHeader>
-          <InfoTitle>해설</InfoTitle>
-          <CardDescription>{detailStudylog.meaning}</CardDescription>
+          <CardDescriptionContainer>
+            <InfoTitle>해설</InfoTitle>
+            <CardDescription>{detailStudylog.meaning}</CardDescription>
+          </CardDescriptionContainer>
+          <ActionButton onClick={onClose}>닫기</ActionButton>
         </CardFace>
       </CardContainer>
     </CardScene>

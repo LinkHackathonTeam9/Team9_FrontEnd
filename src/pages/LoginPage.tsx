@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
 import useLogin from '@hooks/useLogin.tsx';
+import { keyframes } from '@emotion/react';
 
 const PageWrapper = styled.div`
   background-color: #faf8f5;
@@ -32,6 +33,18 @@ const PageTitleImageWrapper = styled.div`
   overflow: hidden;
 `;
 
+const floating = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
 const PageTitleImage = styled.img`
   position: absolute;
   top: 10px;
@@ -39,6 +52,7 @@ const PageTitleImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
+  animation: ${floating} 1.5s ease-in-out infinite;
 `;
 
 const LoginForm = styled.form`
@@ -60,8 +74,6 @@ const LoginInput = styled.input`
   font-size: 16px;
   width: 100%;
   height: 40px;
-  border: 1px solid #e1ded7;
-  border-radius: 5px;
   padding: 0 10px;
   border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
   border-radius: 8px;

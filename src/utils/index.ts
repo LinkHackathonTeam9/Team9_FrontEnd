@@ -17,3 +17,9 @@ export const categoryMaterialIcons: { [key: string]: string } = {
   HISTORY: 'history_edu',
   COMMON_KNOWLEDGE: 'lightbulb',
 };
+
+export const difficultyText: { [key: number]: string } = {
+  1: '하',
+  2: '중',
+  3: '상',
+};
