@@ -86,6 +86,7 @@ const StatisticsPage = () => {
   useEffect(() => {
     const loadStatistics = async () => {
       const statisticsData = await fetchMonthlyAnalysis();
+      setNickname(statisticsData.nickname);
       setCategories(statisticsData.categories);
       setStrengths(statisticsData.strengths);
       setWeaknesses(statisticsData.weaknesses);
