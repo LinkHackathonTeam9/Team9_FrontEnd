@@ -60,13 +60,13 @@ const BottomNavBar = () => {
         <Icon className="material-symbols-outlined">quiz</Icon>
         <Label>퀴즈</Label>
       </StyledNavLink>
-      <StyledNavLink to="/profile">
-        <Icon className="material-symbols-outlined">person</Icon>
-        <Label>프로필</Label>
-      </StyledNavLink>
       <StyledNavLink to="/statistics">
         <Icon className="material-symbols-outlined">bar_chart</Icon>
         <Label>통계</Label>
+      </StyledNavLink>
+      <StyledNavLink to="/profile">
+        <Icon className="material-symbols-outlined">person</Icon>
+        <Label>프로필</Label>
       </StyledNavLink>
     </NavContainer>
   );
