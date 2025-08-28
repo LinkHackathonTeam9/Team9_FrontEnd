@@ -89,7 +89,7 @@ const LearningHistoryTab = ({ isActive }: LearningHistoryTabProps) => {
         ))}
       </InfiniteScroll>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        {selectedLog && <LearningHistoryDetail detailStudylog={selectedLog} />}
+        {selectedLog && <LearningHistoryDetail onClose={() => setIsModalOpen(false)} detailStudylog={selectedLog} />}
       </Modal>
     </TabContent>
   );
