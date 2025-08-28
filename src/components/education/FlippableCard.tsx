@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import type { Card } from '@@types/index.ts';
-import { CARD_CATEGORY_KO } from '@utils/index.ts';
+import { CARD_CATEGORY_KO, difficultyText } from '@utils/index.ts';
 import useCard from '@hooks/useCard.tsx';
 
 const CardScene = styled.div`
@@ -48,8 +48,17 @@ const CardBack = styled(CardFace)`
 const CardHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 0.9rem;
+  align-items: center;
+  font-size: 1rem;
   color: #6c757d;
+  height: 4rem;
+`;
+
+const CardDescriptionContainer = styled.div`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const CardCategory = styled.span`
@@ -85,9 +94,10 @@ const ActionButton = styled.button`
 
 const InfoTitle = styled.div`
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.5rem;
   color: #495057;
   margin-bottom: 5px;
+  height: 2rem;
 `;
 
 const CardText = styled.div`
@@ -97,9 +107,7 @@ const CardText = styled.div`
   line-height: 1.6;
 `;
 
-const CardDescription = styled(CardText)`
-  flex-grow: 1;
-`;
+const CardDescription = styled(CardText)``;
 
 interface FlippableCardProps {
   onClose: () => void;
@@ -129,7 +137,7 @@ const FlippableCard: React.FC<FlippableCardProps> = ({ onClose, cardData, learne
         <CardFront>
           <CardHeader>
             <CardCategory>{CARD_CATEGORY_KO[cardData.category]}</CardCategory>
-            <CardDifficulty>{cardData.difficulty}</CardDifficulty>
+            <CardDifficulty>{difficultyText[cardData.difficulty]}</CardDifficulty>
           </CardHeader>
           <CardTitle>{cardData.title}</CardTitle>
           <ActionButton onClick={handleFlip}>뜻 확인하기</ActionButton>
@@ -138,9 +146,12 @@ const FlippableCard: React.FC<FlippableCardProps> = ({ onClose, cardData, learne
         <CardBack>
           <CardHeader>
             <CardCategory>{CARD_CATEGORY_KO[cardData.category]}</CardCategory>
+            <CardDifficulty>{difficultyText[cardData.difficulty]}</CardDifficulty>
           </CardHeader>
-          <InfoTitle>해설</InfoTitle>
-          <CardDescription>{cardData.meaning}</CardDescription>
+          <CardDescriptionContainer>
+            <InfoTitle>해설</InfoTitle>
+            <CardDescription>{cardData.meaning}</CardDescription>
+          </CardDescriptionContainer>
           <ActionButton onClick={completeAndClose}>{closeText}</ActionButton>
         </CardBack>
       </CardContainer>
