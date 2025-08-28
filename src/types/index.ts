@@ -105,3 +105,11 @@ export interface DetailQuizLog {
   date: string;
   quiz: Quiz;
 }
+
+export interface StudyLog {
+  logId: number;
+  category: CardCategory;
+  title: string;
+  difficulty: number;
+  date: string;
+}

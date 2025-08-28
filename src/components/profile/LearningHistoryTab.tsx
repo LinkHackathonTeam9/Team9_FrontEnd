@@ -1,4 +1,10 @@
 import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
+import type { PaginationResponse, StudyLog } from '@@types/index.ts';
+import { defaultPaginationValue } from '@@types/defaultValues.ts';
+import useStudylogs from '@hooks/useStudylogs.tsx';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { CARD_CATEGORY_KO, categoryMaterialIcons } from '@utils/index.ts';
 
 const learningHistoryData = [
   {
@@ -54,17 +60,36 @@ interface LearningHistoryTabProps {
 }
 
 const LearningHistoryTab = ({ isActive }: LearningHistoryTabProps) => {
+  const [response, setResponse] = useState<PaginationResponse<StudyLog[]>>(defaultPaginationValue);
+  const [studylogs, setStudylods] = useState<StudyLog[]>([]);
+  const { fetchStudylogs } = useStudylogs();
+
+  const fetchMoreData = async () => {
+    const nextPage = response.pageable.pageNumber + 1;
+    const res = await fetchStudylogs(nextPage, response.pageable.pageSize);
+    setStudylods((prev) => [...prev, ...res.content]);
+    setResponse(res);
+  };
+
+  useEffect(() => {
+    fetchMoreData();
+  }, []);
+
   return (
     <TabContent isActive={isActive}>
-      {learningHistoryData.map((item, index) => (
-        <HistoryItem key={index}>
-          <HistoryIcon className="material-symbols-outlined">{item.icon}</HistoryIcon>
-          <HistoryDetails>
-            <h3>{item.title}</h3>
-            <p>{item.date}</p>
-          </HistoryDetails>
-        </HistoryItem>
-      ))}
+      <InfiniteScroll next={fetchMoreData} hasMore={!response.last} loader={null} dataLength={studylogs.length}>
+        {studylogs.map((item, index) => (
+          <HistoryItem key={index}>
+            <HistoryIcon className="material-symbols-outlined">{categoryMaterialIcons[item.category]}</HistoryIcon>
+            <HistoryDetails>
+              <h3>{item.title}</h3>
+              <p>
+                {item.date.split('T')[0]} ・ {CARD_CATEGORY_KO[item.category]}
+              </p>
+            </HistoryDetails>
+          </HistoryItem>
+        ))}
+      </InfiniteScroll>
     </TabContent>
   );
 };
