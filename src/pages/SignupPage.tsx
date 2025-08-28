@@ -5,9 +5,7 @@ import { GGAMJA_COLOR } from '../styles/Colors.ts';
 import useSignup from '@hooks/useSignup.tsx';
 
 const PageWrapper = styled.div`
-  font-family: 'Noto Sans KR', sans-serif;
   background-color: #faf8f5;
-  color: ${GGAMJA_COLOR.DARK_BROWN};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,17 +24,17 @@ const ContentWrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 32px;
+  font-weight: 700;
+  font-size: 47px;
   color: ${GGAMJA_COLOR.DARK_BROWN};
   margin-bottom: 12px;
 `;
 
 const Subtitle = styled.p`
-  font-size: 14px;
+  font-size: 18px;
   color: ${GGAMJA_COLOR.LIGHT_BROWN};
   line-height: 1.6;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `;
 
 const SignupForm = styled.form`
@@ -49,17 +47,17 @@ const SignupForm = styled.form`
 `;
 
 const SignupInputContent = styled.p`
-  font-size: 14px;
+  font-size: 18px;
   color: ${GGAMJA_COLOR.DARK_BROWN};
   text-align: left;
   width: 100%;
 `;
 
 const SignupInput = styled.input`
+  font-size: 16px;
   width: 100%;
   height: 40px;
   padding: 0 10px;
-  font-size: 12px;
   border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
   border-radius: 8px;
   box-shadow: 4px 4px 0 ${GGAMJA_COLOR.DARK_BROWN};
@@ -76,9 +74,8 @@ const ButtonWrapper = styled.div`
 `;
 
 const SignupButton = styled.button`
+  font-size: 24px;
   padding: 10px 20px;
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 16px;
   color: white;
   background-color: ${GGAMJA_COLOR.GREEN};
   text-decoration: none;
@@ -89,9 +86,8 @@ const SignupButton = styled.button`
 `;
 
 const BackButton = styled.button`
+  font-size: 24px;
   padding: 10px 20px;
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 16px;
   color: white;
   background-color: ${GGAMJA_COLOR.LIGHT_BROWN};
   text-decoration: none;
