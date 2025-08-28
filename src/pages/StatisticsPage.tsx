@@ -79,6 +79,7 @@ const StatisticsTextContainer = styled.div<{ isSurpassed: boolean }>`
   font-weight: 400;
   width: 100%;
   color: ${GGAMJA_COLOR.DARK_BROWN};
+  word-break: keep-all;
 `;
 
 const StatisticsCategory = styled.h3`
