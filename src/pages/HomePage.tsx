@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Cookies } from 'react-cookie';
+import { Cookies, useCookies } from 'react-cookie';
 import dayjs from 'dayjs';
 import useHome from '@hooks/useHome.tsx';
 import BottomNavBar from '@components/common/BottomNavBar';
@@ -7,6 +7,7 @@ import ProgressBar from '@components/home/ProgressBar.tsx';
 import AttendanceCalendar from '@components/home/AttendanceCalender.tsx';
 import Modal from '@components/common/Modal.tsx';
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
 
 const PageWrapper = styled.div`
@@ -46,10 +47,23 @@ const UserCharacterWrapper = styled.div`
   height: 200px;
 `;
 
+const floating = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
 const UserCharacterImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
+  animation: ${floating} 1.5s ease-in-out infinite;
 `;
 
 const UserNicknameText = styled.p`
@@ -105,6 +119,7 @@ const HomePage = () => {
   const [characterName, setCharacterName] = useState<string>('');
   const [characterUrl, setCharacterUrl] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
+  const [realtimeCookies] = useCookies();
 
   useEffect(() => {
     const HomeLoading = async () => {
@@ -121,16 +136,13 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    // 페이지 로드 시 팝업 표시 여부 확인
-
     if (isValidPopup()) {
       openPopup();
     }
-  }, []);
+  }, [realtimeCookies]);
 
   const isValidPopup = () => {
     const cookies = new Cookies();
-
     const cookie = cookies.get(`close_popup`);
 
     return !cookie;
@@ -151,7 +163,7 @@ const HomePage = () => {
   const closePopupForDay = () => {
     const cookies = new Cookies();
     const expireDate = dayjs().add(1, 'day').startOf('day').toDate();
-    cookies.set(`close_popup`, 'true', { path: '/home', expires: expireDate });
+    cookies.set(`close_popup`, 'true', { path: '/', expires: expireDate });
     closePopup();
   };
 
