@@ -14,7 +14,7 @@ const PageWrapper = styled.div`
   min-height: 100vh;
   padding: 40px 20px 20px 20px;
   box-sizing: border-box;
-  gap: 80px;
+  gap: 40px;
 `;
 
 const PageTitle = styled.h1`
@@ -22,6 +22,14 @@ const PageTitle = styled.h1`
   font-size: 36px;
   font-weight: 700;
   color: ${GGAMJA_COLOR.DARK_BROWN};
+`;
+
+const PageTitleImage = styled.img`
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
 `;
 
 const LoginForm = styled.form`
@@ -138,6 +146,7 @@ const LoginPage = () => {
   return (
     <PageWrapper>
       <PageTitle>커몬 깜자!</PageTitle>
+      <PageTitleImage></PageTitleImage>
       <LoginForm onSubmit={handleSubmit}>
         <LoginInputWrapper>
           <LoginInputContent>회원이신가요? 로그인해주세요!</LoginInputContent>
@@ -146,11 +155,7 @@ const LoginPage = () => {
           <LoginButton type="submit">로그인</LoginButton>
         </LoginInputWrapper>
 
-        <SignUpContent>
-          아직 회원이 아니신가요?
-          <br />
-          당장 가입해주세요!
-        </SignUpContent>
+        <SignUpContent>아직 회원이 아니신가요? 당장 가입해주세요!</SignUpContent>
 
         <SignUpButton type="button" onClick={handleSignUp}>
           회원가입
