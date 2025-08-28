@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import BottomNavBar from '@components/common/BottomNavBar';
-
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
+
 const PageWrapper = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
   background-color: #faf8f5;
