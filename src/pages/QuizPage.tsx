@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
 import { Link } from 'react-router-dom';
-import type { Quiz } from '@@types/index.ts';
-import { defaultQuizValue } from '@@types/defaultValues.ts';
+import type { Card, Quiz } from '@@types/index.ts';
+import { defaultCardValue, defaultQuizValue } from '@@types/defaultValues.ts';
 import useTodayQuiz from '@hooks/useTodayQuiz.tsx';
+import useCard from '@hooks/useCard.tsx';
+import { CARD_CATEGORY_KO } from '@utils/index.ts';
 
 const PageWrapper = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
@@ -140,8 +142,10 @@ const QuizPage = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
   const [quizData, setQuizData] = useState<Quiz>(defaultQuizValue);
+  const [cardData, setCardData] = useState<Card>(defaultCardValue);
 
   const { fetchTodayQuiz } = useTodayQuiz();
+  const { fetchCard } = useCard();
 
   const handleAnswerClick = (answer: string) => {
     if (!isAnswered) {
@@ -154,7 +158,8 @@ const QuizPage = () => {
     const quiz = await fetchTodayQuiz();
     setQuizData(quiz);
 
-    // todo add fetch card logic
+    const card = await fetchCard(quiz.cardId);
+    setCardData(card);
   };
 
   useEffect(() => {
@@ -174,7 +179,7 @@ const QuizPage = () => {
     <PageWrapper>
       <QuizContainer>
         <QuestionBox>
-          <CategoryTag>card api 구현 이후 카테고리 적용</CategoryTag>
+          <CategoryTag>{CARD_CATEGORY_KO[cardData.category]}</CategoryTag>
           <QuestionText>{quizData.question}</QuestionText>
         </QuestionBox>
 
@@ -198,7 +203,7 @@ const QuizPage = () => {
 
         <ExplanationBox show={showExplanation}>
           <ExplanationTitle>해설</ExplanationTitle>
-          <ExplanationText>card api 구현 이후 설명 적용</ExplanationText>
+          <ExplanationText>{cardData.meaning}</ExplanationText>
         </ExplanationBox>
 
         <HomeButtonBox show={showExplanation}>
