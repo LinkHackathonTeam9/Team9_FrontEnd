@@ -101,7 +101,7 @@ const EducationPage = () => {
 
   useEffect(() => {
     getLearnedCategories();
-  }, []);
+  }, [isModalOpen]);
 
   return (
     <PageWrapper>

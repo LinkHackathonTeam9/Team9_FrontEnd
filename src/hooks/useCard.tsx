@@ -9,15 +9,15 @@ function useCard() {
   };
 
   const fetchTodayCard = (category: CardCategory) => {
-    return api.get<ApiResponse<Card>>(`/cards/todaycards/${category}`).then((response) => response.data.data);
+    return api.get<ApiResponse<Card>>(`/todaycards/${category}`).then((response) => response.data.data);
   };
 
   const fetchLearnedCategories = () => {
-    return api.get<ApiResponse<CardCategory[]>>('/cards/todaycards/category').then((response) => response.data.data);
+    return api.get<ApiResponse<{ categories: CardCategory[] }>>('/todaycards/category').then((response) => response.data.data.categories);
   };
 
   const completeCard = (cardId: number) => {
-    return api.post(`/cards/complete${cardId}`);
+    return api.post(`/cards/complete/${cardId}`);
   };
 
   return { fetchCard, fetchTodayCard, completeCard, fetchLearnedCategories };
