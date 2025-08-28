@@ -19,6 +19,7 @@ const NavContainer = styled.nav`
   padding: 10px 0;
   border-top: 2px solid #4d403d;
   font-family: 'Noto Sans KR', sans-serif;
+  z-index: 100;
 `;
 
 const StyledNavLink = styled(NavLink)`
