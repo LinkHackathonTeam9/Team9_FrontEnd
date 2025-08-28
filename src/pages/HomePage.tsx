@@ -45,7 +45,8 @@ const UserCharacterWrapper = styled.div`
 const UserCharacterImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  border-radius: 10px;
+  object-fit: cover;
 `;
 
 const UserNicknameText = styled.p`
