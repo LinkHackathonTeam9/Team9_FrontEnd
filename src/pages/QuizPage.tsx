@@ -144,13 +144,14 @@ const QuizPage = () => {
   const [quizData, setQuizData] = useState<Quiz>(defaultQuizValue);
   const [cardData, setCardData] = useState<Card>(defaultCardValue);
 
-  const { fetchTodayQuiz } = useTodayQuiz();
+  const { fetchTodayQuiz, submitTodayQuizAnswer } = useTodayQuiz();
   const { fetchCard } = useCard();
 
   const handleAnswerClick = (answer: string) => {
     if (!isAnswered) {
       setIsAnswered(true);
       setSelectedAnswer(answer);
+      submitTodayQuizAnswer(quizData.todayQuizId, answer);
     }
   };
 
