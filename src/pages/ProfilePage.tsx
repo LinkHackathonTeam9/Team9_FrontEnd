@@ -5,7 +5,6 @@ import QuizHistoryTab from '@components/profile/QuizHistoryTab';
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.div`
-  font-family: 'Noto Sans KR', sans-serif;
   background-color: #faf8f5;
   color: #4d403d;
   padding-bottom: 80px;
@@ -21,11 +20,11 @@ export const Container = styled.div`
 `;
 
 export const PageHeader = styled.h1`
-  font-family: 'Pixelify Sans', sans-serif;
   font-size: 28px;
   text-align: center;
   margin-bottom: 24px;
   margin-top: 10px;
+  font-weight: 700;
 `;
 
 export const Tabs = styled.div`
@@ -39,7 +38,6 @@ export const Tabs = styled.div`
 export const TabButton = styled.button<{ isActive: boolean }>`
   flex: 1;
   padding: 12px;
-  font-family: 'Pixelify Sans', sans-serif;
   font-size: 16px;
   text-align: center;
   background-color: ${({ isActive }) => (isActive ? '#4D403D' : 'white')};
