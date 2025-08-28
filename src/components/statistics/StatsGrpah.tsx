@@ -56,6 +56,7 @@ const Bar = styled.div<{ height: number }>`
   width: 100%;
   max-width: 20px;
   background-color: ${GGAMJA_COLOR.GREEN};
+  border: 1.5px solid ${GGAMJA_COLOR.LIGHT_BROWN};
   border-radius: 8px;
   height: ${({ height }) => height}%;
   transition: height 0.3s ease;
