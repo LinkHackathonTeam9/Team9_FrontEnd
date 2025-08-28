@@ -113,7 +113,6 @@ const SignupPage = () => {
   };
 
   const signUp = () => {
-    // todo1 나중에 API 넣을 자리
     fetchSignup(
       inputRefs.nickname.current?.value ?? '',
       inputRefs.email.current?.value ?? '',
