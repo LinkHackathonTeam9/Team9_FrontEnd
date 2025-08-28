@@ -1,7 +1,8 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
+import useSignup from '@hooks/useSignup.tsx';
 
 const PageWrapper = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
@@ -102,19 +103,29 @@ const BackButton = styled.button`
 
 const SignupPage = () => {
   const navigate = useNavigate();
+  const { fetchSignup } = useSignup();
+
   const inputRefs = {
     email: useRef<HTMLInputElement>(null),
     password: useRef<HTMLInputElement>(null),
+    passwordConfirm: useRef<HTMLInputElement>(null),
     nickname: useRef<HTMLInputElement>(null),
   };
 
   const signUp = () => {
     // todo1 나중에 API 넣을 자리
+    fetchSignup(
+      inputRefs.nickname.current?.value ?? '',
+      inputRefs.email.current?.value ?? '',
+      inputRefs.password.current?.value ?? '',
+      inputRefs.passwordConfirm.current?.value ?? '',
+    );
+
     alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
     navigate('/');
   };
 
-  const validate = (email: string, pw: string, nickname: string) => {
+  const validate = (email: string, pw: string, pwConfirm: string, nickname: string) => {
     if (!email.includes('@')) {
       alert('이메일 형식이 올바르지 않습니다.');
       return false;
@@ -130,6 +141,11 @@ const SignupPage = () => {
       return false;
     }
 
+    if (pw !== pwConfirm) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return false;
+    }
+
     return true;
   };
 
@@ -138,13 +154,13 @@ const SignupPage = () => {
 
     const email = inputRefs.email.current?.value ?? '';
     const pw = inputRefs.password.current?.value ?? '';
+    const pwConfirm = inputRefs.passwordConfirm.current?.value ?? '';
     const nickname = inputRefs.nickname.current?.value ?? '';
 
-    if (!validate(email, pw, nickname)) {
+    if (!validate(email, pw, pwConfirm, nickname)) {
       return;
     }
 
-    // todo2 닉네임 유효성 검사 로직 추가
     signUp();
   };
 
@@ -162,6 +178,8 @@ const SignupPage = () => {
           <SignupInput type="email" ref={inputRefs.email} placeholder="이메일을 입력해주세요" />
           <SignupInputContent>* 비밀번호</SignupInputContent>
           <SignupInput type="password" ref={inputRefs.password} placeholder="비밀번호를 입력해주세요" />
+          <SignupInputContent>* 비밀번호 확인</SignupInputContent>
+          <SignupInput type="password" ref={inputRefs.passwordConfirm} placeholder="비밀번호를 입력해주세요" />
           <SignupInputContent>* 닉네임</SignupInputContent>
           <SignupInput type="nickname" ref={inputRefs.nickname} placeholder="닉네임을 입력해주세요" />
           <ButtonWrapper>
