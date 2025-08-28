@@ -8,6 +8,7 @@ import ProfilePage from '@pages/ProfilePage';
 import QuizPage from '@pages/QuizPage.tsx';
 import { Global } from '@emotion/react';
 import { globalStyles } from './styles/GlobalStyles';
+import AttendanceCalendar from '@components/home/AttendanceCalender';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/quiz-home" element={<QuizHomePage />} />
         <Route path="/quiz" element={<QuizPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/attendance" element={<AttendanceCalendar />} />
       </Routes>
       <Global styles={globalStyles} />
     </>
