@@ -90,8 +90,8 @@ const StatisticsPage = () => {
   const { fetchMonthlyAnalysis } = useMonthlyAnalysis();
   const [nickname, setNickname] = useState<string>('사용자');
   const [categories, setCategories] = useState<{ category: CardCategory; quizLogCount: number; cardLogCount: number; accuracy: number }[]>([]);
-  const [strengths, setStrengths] = useState<string[]>([]);
-  const [weaknesses, setWeaknesses] = useState<string[]>([]);
+  const [strengths, setStrengths] = useState<CardCategory[]>([]);
+  const [weaknesses, setWeaknesses] = useState<CardCategory[]>([]);
   const [allEqual, setAllEqual] = useState(false);
 
   useEffect(() => {
@@ -106,6 +106,30 @@ const StatisticsPage = () => {
 
     loadStatistics();
   }, []);
+
+  const renderStatisticsContent = () => {
+    if (!allEqual) {
+      return [
+        { data: strengths, isSurpassed: true, message: '분야에 강하시네요!' },
+        { data: weaknesses, isSurpassed: false, message: '분야를 조금 더 공부해보아요!' },
+      ].map(
+        ({ data, isSurpassed, message }) =>
+          data.length > 0 && (
+            <StatisticsTextContainer key={message} isSurpassed={isSurpassed}>
+              {data.map((category, index) => (
+                <StatisticsCategory key={index}>
+                  {CARD_CATEGORY_KO[category as CardCategory]}
+                  {index < data.length - 1 ? ', ' : ''}
+                </StatisticsCategory>
+              ))}
+              {message}
+            </StatisticsTextContainer>
+          ),
+      );
+    }
+    const isNeverStudied = categories[0].accuracy == 0;
+    return isNeverStudied ? '지금 당장 공부하러 가볼까요?' : '모든 카테고리의 정답률이 동일합니다.';
+  };
 
   return (
     <PageWrapper>
@@ -127,29 +151,7 @@ const StatisticsPage = () => {
             <StatsGraph data={categories} />
           </StatisticsContent>
           <StatisticsTitle>{nickname}님, 이번 달에는 ...</StatisticsTitle>
-          <StatisticsContent>
-            {!allEqual
-              ? [
-                  { data: strengths, isSurpassed: true, message: '분야에 강하시네요!' },
-                  { data: weaknesses, isSurpassed: false, message: '분야를 조금 더 공부해보아요!' },
-                ].map(
-                  ({ data, isSurpassed, message }) =>
-                    data.length > 0 && (
-                      <StatisticsTextContainer key={message} isSurpassed={isSurpassed}>
-                        {data.map((category, index) => (
-                          <StatisticsCategory key={index}>
-                            {CARD_CATEGORY_KO[category as CardCategory]}
-                            {index < data.length - 1 ? ', ' : ''}
-                          </StatisticsCategory>
-                        ))}
-                        {message}
-                      </StatisticsTextContainer>
-                    ),
-                )
-              : categories[0].accuracy == 0
-                ? '지금 당장 공부하러 가볼까요?'
-                : ''}
-          </StatisticsContent>
+          <StatisticsContent>{renderStatisticsContent()}</StatisticsContent>
         </StatisticsContentWrapper>
         <BottomNavBar />
       </Container>
