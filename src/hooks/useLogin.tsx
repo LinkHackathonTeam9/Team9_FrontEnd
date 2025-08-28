@@ -5,7 +5,7 @@ function useLogin() {
   const { api } = useApi();
 
   const fetchLogin = (email: string, password: string) => {
-    const response = api.post<ApiResponse<LoginResponse>>('/members/login', { email, password }).then((response) => response.data.data);
+    return api.post<ApiResponse<LoginResponse>>('/members/login', { email, password }).then((response) => response.data.data);
   };
 
   return { fetchLogin };
