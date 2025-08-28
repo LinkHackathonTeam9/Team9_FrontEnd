@@ -35,3 +35,17 @@ export interface Quiz {
   answer: string;
   options: string[];
 }
+
+export interface Card {
+  id: number;
+  category: CardCategory;
+  title: string;
+  meaning: string;
+  difficulty: number;
+}
+
+export interface SubmitTodayQuizAnswerResponse {
+  todayQuizId: number;
+  isCorrect: boolean;
+  correctAnswer: string;
+}
