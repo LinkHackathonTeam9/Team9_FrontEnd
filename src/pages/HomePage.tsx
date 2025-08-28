@@ -120,14 +120,6 @@ const HomePage = () => {
     HomeLoading();
   }, []);
 
-  useEffect(() => {
-    // 페이지 로드 시 팝업 표시 여부 확인
-
-    if (isValidPopup()) {
-      openPopup();
-    }
-  }, []);
-
   const isValidPopup = () => {
     const cookies = new Cookies();
 
@@ -154,6 +146,14 @@ const HomePage = () => {
     cookies.set(`close_popup`, 'true', { path: '/home', expires: expireDate });
     closePopup();
   };
+
+  useEffect(() => {
+    // 페이지 로드 시 팝업 표시 여부 확인
+
+    if (isValidPopup()) {
+      openPopup();
+    }
+  }, []);
 
   return (
     <PageWrapper>
