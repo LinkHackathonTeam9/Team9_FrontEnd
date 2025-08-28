@@ -2,15 +2,9 @@ import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
 import { Link } from 'react-router-dom';
-
-const dummyQuizData = {
-  category: '역사',
-  question: '대한민국 임시정부의 초대 대통령은 누구일까요?',
-  answers: ['안창호', '이승만', '김구', '김규식'],
-  correctAnswer: '이승만',
-  explanation:
-    '대한민국 임시정부의 초대 대통령은 이승만입니다. 그는 1919년 상하이에서 수립된 임시정부에서 대통령으로 선출되었습니다. 김구 선생은 이후 임시정부의 주석으로 활약하며 독립운동을 이끌었습니다.',
-};
+import type { Quiz } from '@@types/index.ts';
+import { defaultQuizValue } from '@@types/defaultValues.ts';
+import useTodayQuiz from '@hooks/useTodayQuiz.tsx';
 
 const PageWrapper = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
@@ -145,6 +139,9 @@ const QuizPage = () => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [quizData, setQuizData] = useState<Quiz>(defaultQuizValue);
+
+  const { fetchTodayQuiz } = useTodayQuiz();
 
   const handleAnswerClick = (answer: string) => {
     if (!isAnswered) {
@@ -152,6 +149,17 @@ const QuizPage = () => {
       setSelectedAnswer(answer);
     }
   };
+
+  const getQuizData = async () => {
+    const quiz = await fetchTodayQuiz();
+    setQuizData(quiz);
+
+    // todo add fetch card logic
+  };
+
+  useEffect(() => {
+    getQuizData();
+  }, []);
 
   useEffect(() => {
     if (isAnswered) {
@@ -166,23 +174,23 @@ const QuizPage = () => {
     <PageWrapper>
       <QuizContainer>
         <QuestionBox>
-          <CategoryTag>{dummyQuizData.category}</CategoryTag>
-          <QuestionText>{dummyQuizData.question}</QuestionText>
+          <CategoryTag>card api 구현 이후 카테고리 적용</CategoryTag>
+          <QuestionText>{quizData.question}</QuestionText>
         </QuestionBox>
 
         <AnswerGrid>
-          {dummyQuizData.answers.map((answer) => {
-            const isCorrect = answer === dummyQuizData.correctAnswer;
-            const isSelected = answer === selectedAnswer;
+          {quizData.options.map((option) => {
+            const isCorrect = option === quizData.answer;
+            const isSelected = option === selectedAnswer;
             return (
               <AnswerButton
-                key={answer}
-                onClick={() => handleAnswerClick(answer)}
+                key={option}
+                onClick={() => handleAnswerClick(option)}
                 disabled={isAnswered}
                 isCorrect={isAnswered && isCorrect}
                 isSelected={isSelected}
               >
-                {answer}
+                {option}
               </AnswerButton>
             );
           })}
@@ -190,7 +198,7 @@ const QuizPage = () => {
 
         <ExplanationBox show={showExplanation}>
           <ExplanationTitle>해설</ExplanationTitle>
-          <ExplanationText>{dummyQuizData.explanation}</ExplanationText>
+          <ExplanationText>card api 구현 이후 설명 적용</ExplanationText>
         </ExplanationBox>
 
         <HomeButtonBox show={showExplanation}>
