@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
 
 const PageWrapper = styled.div`
-  font-family: 'Noto Sans KR', sans-serif;
   background-color: #faf8f5;
   color: ${GGAMJA_COLOR.DARK_BROWN};
   display: flex;
@@ -18,9 +17,8 @@ const PageWrapper = styled.div`
 `;
 
 const PageTitle = styled.h1`
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 36px;
   font-weight: 700;
+  font-size: 40px;
   color: ${GGAMJA_COLOR.DARK_BROWN};
 `;
 
@@ -48,28 +46,27 @@ const LoginInputWrapper = styled.div`
 `;
 
 const LoginInput = styled.input`
+  font-size: 16px;
   width: 100%;
   height: 40px;
   border: 1px solid #e1ded7;
   border-radius: 5px;
   padding: 0 10px;
-  font-size: 12px;
   border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
   border-radius: 8px;
   box-shadow: 4px 4px 0 ${GGAMJA_COLOR.DARK_BROWN};
 `;
 
 const LoginInputContent = styled.p`
-  font-size: 14px;
+  font-size: 18px;
   color: #888888;
 `;
 
 const LoginButton = styled.button`
+  font-size: 26px;
   display: inline-block;
   background-color: ${GGAMJA_COLOR.GREEN};
   color: white;
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 20px;
   padding: 10px 20px;
   text-decoration: none;
   border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
@@ -79,18 +76,17 @@ const LoginButton = styled.button`
 `;
 
 const SignUpContent = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: #888888;
   text-align: center;
   line-height: 2.5;
 `;
 
 const SignUpButton = styled.button`
+  font-size: 26px;
   display: inline-block;
   background-color: ${GGAMJA_COLOR.LIGHT_BROWN};
   color: white;
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 20px;
   padding: 10px 20px;
   text-decoration: none;
   border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};

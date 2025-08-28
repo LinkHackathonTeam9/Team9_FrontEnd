@@ -8,7 +8,6 @@ import { CARD_CATEGORY } from '@@types/index.ts';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
 
 const PageWrapper = styled.div`
-  font-family: 'Noto Sans KR', sans-serif;
   background-color: #faf8f5;
   color: ${GGAMJA_COLOR.DARK_BROWN};
   padding-bottom: 80px;
@@ -23,7 +22,6 @@ const Header = styled.header`
 `;
 
 const PageTitle = styled.h1`
-  font-family: 'Pixelify Sans', sans-serif;
   font-size: 36px;
   font-weight: 700;
   color: ${GGAMJA_COLOR.DARK_BROWN};
