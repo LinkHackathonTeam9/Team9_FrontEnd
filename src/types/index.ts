@@ -27,3 +27,15 @@ export interface LoginResponse {
   bonusGiven: boolean;
   levelChanged: boolean;
 }
+
+export interface HomeResponse {
+  nickname: string;
+  points: number;
+  level: {
+    level: number;
+    startPoint: number;
+    endPoint: number;
+    characterName: string;
+    characterUrl: string;
+  };
+}
