@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import BottomNavBar from '@components/common/BottomNavBar.tsx';
+import StatsCard from '@components/statistics/StatsCard.tsx';
 import StatsGraph from '@components/statistics/StatsGrpah.tsx';
 import useMonthlyAnalysis from '@hooks/useMonthlyAnalysis.tsx';
 import styled from '@emotion/styled';
@@ -41,6 +42,15 @@ const StatisticsContentWrapper = styled.div`
   gap: 10px;
 `;
 
+const StatsCardGridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+`;
+
 const StatisticsContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -53,6 +63,7 @@ const StatisticsContent = styled.div`
   gap: 10px;
   padding: 20px;
   margin-bottom: 20px;
+  box-shadow: 4px 4px 0 ${GGAMJA_COLOR.DARK_BROWN};
 `;
 
 const StatisticsTitle = styled.h2`
@@ -104,7 +115,13 @@ const StatisticsPage = () => {
         </Header>
         <StatisticsContentWrapper>
           <StatisticsTitle>카테고리 분석</StatisticsTitle>
-          <StatisticsContent></StatisticsContent>
+          <StatisticsContent>
+            <StatsCardGridContainer>
+              {categories.map((item, index) => (
+                <StatsCard key={index} category={item.category} quizLogCount={item.quizLogCount} cardLogCount={item.cardLogCount} />
+              ))}
+            </StatsCardGridContainer>
+          </StatisticsContent>
           <StatisticsTitle>정답률 분석</StatisticsTitle>
           <StatisticsContent>
             <StatsGraph data={categories} />
