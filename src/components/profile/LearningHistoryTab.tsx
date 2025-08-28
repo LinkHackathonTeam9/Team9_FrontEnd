@@ -6,19 +6,6 @@ import useStudylogs from '@hooks/useStudylogs.tsx';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { CARD_CATEGORY_KO, categoryMaterialIcons } from '@utils/index.ts';
 
-const learningHistoryData = [
-  {
-    icon: 'history_edu',
-    title: '역사 카드 학습 완료!',
-    date: '2025년 8월 28일',
-  },
-  {
-    icon: 'science',
-    title: '과학 카드 학습 완료!',
-    date: '2025년 8월 27일',
-  },
-];
-
 export const TabContent = styled.div<{ isActive: boolean }>`
   display: ${({ isActive }) => (isActive ? 'block' : 'none')};
 `;
