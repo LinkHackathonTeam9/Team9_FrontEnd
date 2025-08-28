@@ -15,6 +15,35 @@ export interface ApiResponse<T> {
   data: T;
 }
 
+export interface Sort {
+  sorted: boolean;
+  empty: boolean;
+  unsorted: boolean;
+}
+
+export interface Pageable {
+  pageNumber: number;
+  pageSize: number;
+  sort: Sort;
+  offset: number;
+  paged: boolean;
+  unpaged: boolean;
+}
+
+export interface PaginationResponse<T> {
+  content: T[];
+  pageable: Pageable;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  number: number;
+  size: number;
+  numberOfElements: number;
+  sort: Sort;
+  first: boolean;
+  empty: boolean;
+}
+
 export interface SignupResponse {
   id: number;
   nickname: string;
@@ -60,4 +89,19 @@ export interface SubmitTodayQuizAnswerResponse {
   todayQuizId: number;
   isCorrect: boolean;
   correctAnswer: string;
+}
+
+export interface QuizLog {
+  quizLogId: number;
+  date: string;
+  category: CardCategory;
+  isCorrect: boolean;
+}
+
+export interface DetailQuizLog {
+  quizLogId: number;
+  isCorrect: boolean;
+  selectedAnswer: string;
+  date: string;
+  quiz: Quiz;
 }

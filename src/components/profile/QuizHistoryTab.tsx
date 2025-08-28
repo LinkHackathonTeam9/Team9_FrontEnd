@@ -1,25 +1,10 @@
 import styled from '@emotion/styled';
-
-const quizHistoryData = [
-  {
-    icon: 'lightbulb',
-    title: '상식 퀴즈 완료!',
-    date: '2025년 8월 28일',
-    score: '8 / 10',
-  },
-  {
-    icon: 'menu_book',
-    title: '속담 퀴즈 완료!',
-    date: '2025년 8월 26일',
-    score: '10 / 10',
-  },
-  {
-    icon: 'account_balance',
-    title: '수도 퀴즈 완료!',
-    date: '2025년 8월 25일',
-    score: '6 / 10',
-  },
-];
+import { useEffect, useState } from 'react';
+import type { PaginationResponse, QuizLog } from '@@types/index.ts';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { defaultPaginationValue } from '@@types/defaultValues.ts';
+import useQuizLog from '@hooks/useQuizLog.tsx';
+import { CARD_CATEGORY_KO, categoryMaterialIcons } from '@utils/index.ts';
 
 export const TabContent = styled.div<{ isActive: boolean }>`
   display: ${({ isActive }) => (isActive ? 'block' : 'none')};
@@ -57,9 +42,9 @@ export const HistoryDetails = styled.div`
   }
 `;
 
-export const QuizScore = styled.span`
+export const QuizScore = styled.span<{ isCorrect: boolean }>`
   font-weight: 700;
-  color: #84cc16;
+  color: ${({ isCorrect }) => (isCorrect ? '#22c55e' : '#ef4444')};
 `;
 
 interface QuizHistoryTabProps {
@@ -67,19 +52,36 @@ interface QuizHistoryTabProps {
 }
 
 const QuizHistoryTab = ({ isActive }: QuizHistoryTabProps) => {
+  const [response, setResponse] = useState<PaginationResponse<QuizLog[]>>(defaultPaginationValue);
+  const [quizlogs, setQuizlogs] = useState<QuizLog[]>([]);
+  const { getQuizLogs } = useQuizLog();
+
+  useEffect(() => {
+    fetchMoreData();
+  }, []);
+
+  const fetchMoreData = async () => {
+    const nextPage = response.pageable.pageNumber + 1;
+    const res = await getQuizLogs(nextPage, response.pageable.pageSize);
+    setQuizlogs((prev) => [...prev, ...res.content]);
+    setResponse(res);
+  };
+
   return (
     <TabContent isActive={isActive}>
-      {quizHistoryData.map((item, index) => (
-        <HistoryItem key={index}>
-          <HistoryIcon className="material-symbols-outlined">{item.icon}</HistoryIcon>
-          <HistoryDetails>
-            <h3>{item.title}</h3>
-            <p>
-              {item.date} ・ <QuizScore>점수: {item.score}</QuizScore>
-            </p>
-          </HistoryDetails>
-        </HistoryItem>
-      ))}
+      <InfiniteScroll next={fetchMoreData} hasMore={!response.last} loader={null} dataLength={quizlogs.length}>
+        {quizlogs.map((item, index) => (
+          <HistoryItem key={index}>
+            <HistoryIcon className="material-symbols-outlined">{categoryMaterialIcons[item.category]}</HistoryIcon>
+            <HistoryDetails>
+              <h3>{CARD_CATEGORY_KO[item.category]} 퀴즈 완료!</h3>
+              <p>
+                {item.date.split('T')[0]} ・ <QuizScore isCorrect={item.isCorrect}>{item.isCorrect ? '정답' : '오답'}</QuizScore>
+              </p>
+            </HistoryDetails>
+          </HistoryItem>
+        ))}
+      </InfiniteScroll>
     </TabContent>
   );
 };
