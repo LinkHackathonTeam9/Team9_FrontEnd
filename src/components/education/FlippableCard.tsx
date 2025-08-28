@@ -50,9 +50,9 @@ const CardHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1rem;
+  font-size: 24px;
   color: #6c757d;
-  height: 4rem;
+  height: 100px;
 `;
 
 const CardDescriptionContainer = styled.div`
@@ -69,8 +69,8 @@ const CardCategory = styled.span`
 const CardDifficulty = styled.span``;
 
 const CardTitle = styled.div`
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 30px;
+  font-weight: 700;
   text-align: center;
   margin: auto 0;
   color: #343a40;
@@ -90,15 +90,15 @@ const ActionButton = styled.button`
 `;
 
 const InfoTitle = styled.div`
-  font-weight: bold;
-  font-size: 1.5rem;
+  font-weight: 700;
+  font-size: 20px;
   color: #495057;
   margin-bottom: 5px;
   height: 2rem;
 `;
 
 const CardText = styled.div`
-  font-size: 1rem;
+  font-size: 20px;
   color: #212529;
   margin-bottom: 15px;
   line-height: 1.6;
