@@ -3,6 +3,12 @@ import useAttendance from '@hooks/useAttendance';
 import styled from '@emotion/styled';
 import { GGAMJA_COLOR } from '../../styles/Colors';
 
+const CalendarTitle = styled.p`
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+`;
+
 const CalendarWrapper = styled.div`
   position: relative;
   left: 50%;
@@ -85,26 +91,29 @@ export default function AttendanceCalendar() {
   }, []);
 
   return (
-    <CalendarWrapper>
-      {attendance.map((day, index) => {
-        const dayNumber = index + 1;
-        const isLastDay = dayNumber === 7;
+    <>
+      <CalendarTitle>주간 출석</CalendarTitle>
+      <CalendarWrapper>
+        {attendance.map((day, index) => {
+          const dayNumber = index + 1;
+          const isLastDay = dayNumber === 7;
 
-        return (
-          <DayItem key={dayNumber} isDouble={isLastDay} isAttended={day.attended}>
-            <DayItemText>{dayNumber}일차</DayItemText>
-            <DayItemImageContainer>
-              <DayItemImage
-                src={
-                  day.attended
-                    ? 'https://ggamja-images.s3.ap-northeast-2.amazonaws.com/level1.png'
-                    : 'https://ggamja-images.s3.ap-northeast-2.amazonaws.com/Attendance-Failed.png'
-                }
-              />
-            </DayItemImageContainer>
-          </DayItem>
-        );
-      })}
-    </CalendarWrapper>
+          return (
+            <DayItem key={dayNumber} isDouble={isLastDay} isAttended={day.attended}>
+              <DayItemText>{dayNumber}일차</DayItemText>
+              <DayItemImageContainer>
+                <DayItemImage
+                  src={
+                    day.attended
+                      ? 'https://ggamja-images.s3.ap-northeast-2.amazonaws.com/level1.png'
+                      : 'https://ggamja-images.s3.ap-northeast-2.amazonaws.com/Attendance-Failed.png'
+                  }
+                />
+              </DayItemImageContainer>
+            </DayItem>
+          );
+        })}
+      </CalendarWrapper>
+    </>
   );
 }
