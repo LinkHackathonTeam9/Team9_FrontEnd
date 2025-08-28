@@ -28,6 +28,18 @@ export interface LoginResponse {
   levelChanged: boolean;
 }
 
+
+export interface HomeResponse {
+  nickname: string;
+  points: number;
+  level: {
+    level: number;
+    startPoint: number;
+    endPoint: number;
+    characterName: string;
+    characterUrl: string;
+  };
+
 export interface Quiz {
   todayQuizId: number;
   cardId: number;
@@ -48,4 +60,5 @@ export interface SubmitTodayQuizAnswerResponse {
   todayQuizId: number;
   isCorrect: boolean;
   correctAnswer: string;
+
 }

@@ -23,12 +23,22 @@ const PageTitle = styled.h1`
   color: ${GGAMJA_COLOR.DARK_BROWN};
 `;
 
-const PageTitleImage = styled.img`
+const PageTitleImageWrapper = styled.div`
+  position: relative;
   width: 150px;
   height: 150px;
-  object-fit: cover;
-  border-radius: 50%;
   border: 2px solid ${GGAMJA_COLOR.DARK_BROWN};
+  border-radius: 50%;
+  overflow: hidden;
+`;
+
+const PageTitleImage = styled.img`
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 `;
 
 const LoginForm = styled.form`
@@ -146,8 +156,10 @@ const LoginPage = () => {
 
   return (
     <PageWrapper>
-      <PageTitle>커몬 깜자!</PageTitle>
-      <PageTitleImage></PageTitleImage>
+      <PageTitle>Comm'on 깜자!</PageTitle>
+      <PageTitleImageWrapper>
+        <PageTitleImage src="https://ggamja-level-images.s3.ap-northeast-2.amazonaws.com/level1.png" alt="깜자" />
+      </PageTitleImageWrapper>
       <LoginForm onSubmit={handleSubmit}>
         <LoginInputWrapper>
           <LoginInputContent>회원이신가요? 로그인해주세요!</LoginInputContent>

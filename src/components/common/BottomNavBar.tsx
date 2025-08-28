@@ -50,19 +50,19 @@ const BottomNavBar = () => {
     <NavContainer>
       <StyledNavLink to="/home">
         <Icon className="material-symbols-outlined">home</Icon>
-        <Label>Home</Label>
+        <Label>홈</Label>
       </StyledNavLink>
       <StyledNavLink to="/education">
         <Icon className="material-symbols-outlined">school</Icon>
-        <Label>Education</Label>
+        <Label>학습</Label>
       </StyledNavLink>
       <StyledNavLink to="/quiz-home">
         <Icon className="material-symbols-outlined">quiz</Icon>
-        <Label>Quiz</Label>
+        <Label>퀴즈</Label>
       </StyledNavLink>
       <StyledNavLink to="/profile">
         <Icon className="material-symbols-outlined">person</Icon>
-        <Label>Profile</Label>
+        <Label>프로필</Label>
       </StyledNavLink>
     </NavContainer>
   );
