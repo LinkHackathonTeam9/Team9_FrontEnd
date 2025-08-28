@@ -140,3 +140,18 @@ export interface AttendanceResponse {
   ];
   allCompleted: boolean;
 }
+
+export interface MonthlyAnalysisResponse {
+  nickname: string;
+  categories: [
+    {
+      category: CardCategory;
+      quizLogCount: number;
+      cardLogCount: number;
+      accuracy: number;
+    },
+  ];
+  strengths: CardCategory[];
+  weaknesses: CardCategory[];
+  allEqual: boolean;
+}

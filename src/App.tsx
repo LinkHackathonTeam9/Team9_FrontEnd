@@ -6,6 +6,7 @@ import EducationPage from '@pages/EducationPage';
 import QuizHomePage from '@pages/QuizHomePage.tsx';
 import ProfilePage from '@pages/ProfilePage';
 import QuizPage from '@pages/QuizPage.tsx';
+import StatisticsPage from '@pages/StatisticsPage.tsx';
 import { Global } from '@emotion/react';
 import { globalStyles } from './styles/GlobalStyles';
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/quiz-home" element={<QuizHomePage />} />
         <Route path="/quiz" element={<QuizPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/statistics" element={<StatisticsPage />} />
       </Routes>
       <Global styles={globalStyles} />
     </>
