@@ -8,4 +8,9 @@ export const globalStyles = css`
     font-family: 'PfStardust30S', sans-serif;
     font-weight: 400;
   }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
 `;

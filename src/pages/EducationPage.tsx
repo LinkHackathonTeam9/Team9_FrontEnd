@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Modal from '../components/common/Modal';
 import FlippableCard from '../components/education/FlippableCard';
 import BottomNavBar from '../components/common/BottomNavBar';
 import { CARD_CATEGORY_KO, categoryMaterialIcons } from '../utils';
-import { CARD_CATEGORY } from '@@types/index.ts';
+import { type Card, CARD_CATEGORY, type CardCategory } from '@@types/index.ts';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
+import { defaultCardValue } from '@@types/defaultValues.ts';
+import useCard from '@hooks/useCard.tsx';
 
 const PageWrapper = styled.div`
   background-color: #faf8f5;
@@ -69,24 +71,37 @@ const CardTitle = styled.h2`
   margin-top: 12px;
 `;
 
-const Status = styled.p`
+const Status = styled.p<{ isLearned?: boolean }>`
   font-size: 13px;
-  color: ${GGAMJA_COLOR.LIGHT_BROWN};
+  color: ${({ isLearned }) => (isLearned ? GGAMJA_COLOR.GREEN : GGAMJA_COLOR.LIGHT_BROWN)};
   margin-top: 6px;
 `;
 
 const EducationPage = () => {
-  // todo fetch learning status from server
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [todayCardData, setTodayCardData] = useState<Card>(defaultCardValue);
+  const [learnedCategories, setLearnedCategories] = useState<CardCategory[]>([]);
 
-  const handleOpenModal = () => {
+  const { fetchTodayCard, fetchLearnedCategories } = useCard();
+
+  const handleOpenModal = async (category: CardCategory) => {
+    const card = await fetchTodayCard(category);
+    setTodayCardData(card);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const getLearnedCategories = async () => {
+    const categories = await fetchLearnedCategories();
+    setLearnedCategories(categories);
+  };
+
+  useEffect(() => {
+    getLearnedCategories();
+  }, [isModalOpen]);
 
   return (
     <PageWrapper>
@@ -97,17 +112,27 @@ const EducationPage = () => {
         </Header>
 
         <GridContainer>
-          {Object.values(CARD_CATEGORY).map((category) => (
-            <Card key={category} onClick={handleOpenModal}>
-              <Icon className="material-symbols-outlined">{categoryMaterialIcons[category] || 'help'}</Icon>
-              <CardTitle>{CARD_CATEGORY_KO[category]}</CardTitle>
-              <Status>학습 전이에요!</Status>
-            </Card>
-          ))}
+          {Object.values(CARD_CATEGORY).map((category) => {
+            const isLearned = learnedCategories.includes(category);
+            const statusText = isLearned ? '학습 완료!' : '학습 전이에요!';
+
+            return (
+              <Card
+                key={category}
+                onClick={() => {
+                  handleOpenModal(category);
+                }}
+              >
+                <Icon className="material-symbols-outlined">{categoryMaterialIcons[category] || 'help'}</Icon>
+                <CardTitle>{CARD_CATEGORY_KO[category]}</CardTitle>
+                <Status isLearned={isLearned}>{statusText}</Status>
+              </Card>
+            );
+          })}
         </GridContainer>
 
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-          <FlippableCard onClose={handleCloseModal} />
+          <FlippableCard cardData={todayCardData} learned={learnedCategories.includes(todayCardData.category)} onClose={handleCloseModal} />
         </Modal>
       </Container>
       <BottomNavBar />
