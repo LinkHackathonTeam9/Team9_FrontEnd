@@ -24,13 +24,6 @@ const PageTitle = styled.h1`
   color: ${GGAMJA_COLOR.DARK_BROWN};
 `;
 
-const PageSubtitle = styled.p`
-  font-size: 16px;
-  color: ${GGAMJA_COLOR.LIGHT_BROWN};
-  margin-top: 8px;
-  line-height: 1.5;
-`;
-
 const UserStatusWrapper = styled.div`
   border: 1px solid ${GGAMJA_COLOR.DARK_BROWN};
   border-radius: 10px;

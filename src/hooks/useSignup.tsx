@@ -5,9 +5,7 @@ function useSignup() {
   const { api } = useApi();
 
   const fetchSignup = (nickname: string, email: string, password: string, passwordConfirm: string) => {
-    const response = api
-      .post<ApiResponse<SignupResponse>>('/members/register', { nickname, email, password, passwordConfirm })
-      .then((response) => response.data.data);
+    return api.post<ApiResponse<SignupResponse>>('/members/register', { nickname, email, password, passwordConfirm }).then((response) => response.data.data);
   };
 
   return { fetchSignup };
