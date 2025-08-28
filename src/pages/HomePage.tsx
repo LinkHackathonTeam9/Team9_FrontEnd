@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
+import { Cookies } from 'react-cookie';
+import dayjs from 'dayjs';
 import useHome from '@hooks/useHome.tsx';
 import BottomNavBar from '@components/common/BottomNavBar';
 import ProgressBar from '@components/home/ProgressBar.tsx';
+import AttendanceCalendar from '@components/home/AttendanceCalender.tsx';
+import Modal from '@components/common/Modal.tsx';
 import styled from '@emotion/styled';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
 
@@ -100,6 +104,7 @@ const HomePage = () => {
   const [endPoint, setEndPoint] = useState<number>(0);
   const [characterName, setCharacterName] = useState<string>('');
   const [characterUrl, setCharacterUrl] = useState<string>('');
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const HomeLoading = async () => {
@@ -114,6 +119,45 @@ const HomePage = () => {
     };
     HomeLoading();
   }, []);
+
+  useEffect(() => {
+    // 페이지 로드 시 팝업 표시 여부 확인
+    const expireDate = dayjs().add(1, 'day').startOf('day').toDate();
+    if (isValidPopup(expireDate)) {
+      openPopup();
+    }
+  }, []);
+
+  const isValidPopup = (expireDate: Date) => {
+    const cookies = new Cookies();
+    const currentDate = new Date();
+
+    const cookie = cookies.get(`close_popup`);
+    if (cookie) {
+      return false;
+    }
+
+    return expireDate >= currentDate;
+  };
+
+  const openPopup = () => {
+    setIsOpen(true);
+    // 팝업창 open 시 배경 스크롤 금지 코드
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closePopup = () => {
+    setIsOpen(false);
+    // 팝업창 close 시 배경 스크롤 금지 해제 코드
+    document.body.style.overflow = 'auto';
+  };
+
+  const closePopupForDay = () => {
+    const cookies = new Cookies();
+    const expireDate = dayjs().add(1, 'day').startOf('day').toDate();
+    cookies.set(`close_popup`, 'true', { path: '/home', expires: expireDate });
+    closePopup();
+  };
 
   return (
     <PageWrapper>
@@ -137,6 +181,9 @@ const HomePage = () => {
             <ProgressBar startPoint={startPoint} endPoint={endPoint} totalPoint={points} />
           </UserStatusContentWrapper>
         </UserStatusWrapper>
+        <Modal isOpen={isOpen} onClose={closePopupForDay}>
+          <AttendanceCalendar />
+        </Modal>
         <BottomNavBar />
       </Container>
     </PageWrapper>
