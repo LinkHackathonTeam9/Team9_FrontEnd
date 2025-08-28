@@ -109,9 +109,12 @@ const LoginPage = () => {
     password: useRef<HTMLInputElement>(null),
   };
 
-  const login = () => {
-    fetchLogin(inputRefs.email.current?.value ?? '', inputRefs.password.current?.value ?? '');
-    navigate('/home');
+  const login = async () => {
+    const isloginSuccess = await fetchLogin(inputRefs.email.current?.value ?? '', inputRefs.password.current?.value ?? '');
+
+    if (isloginSuccess) {
+      navigate('/home');
+    }
   };
 
   const handleSignUp = () => {
