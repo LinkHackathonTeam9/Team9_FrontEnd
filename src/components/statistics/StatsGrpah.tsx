@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
+import { CARD_CATEGORY_KO } from '@utils/index';
+import type { CardCategory } from '@@types/index';
 import { GGAMJA_COLOR } from '../../styles/Colors';
 
 interface CategoryData {
-  category: string;
+  category: CardCategory;
   accuracy: number;
-  imageUrl: string;
 }
 
 interface StatsGraphProps {
@@ -66,7 +67,6 @@ const CategoryName = styled.span`
   font-weight: 600;
   color: ${GGAMJA_COLOR.DARK_BROWN};
   text-align: center;
-  writing-mode: vertical-lr;
   text-orientation: mixed;
 `;
 
@@ -86,7 +86,7 @@ const StatsGraph = ({ data }: StatsGraphProps) => {
             <CharacterImage src="https://ggamja-images.s3.ap-northeast-2.amazonaws.com/level1.png" barHeight={item.accuracy} />
             <Bar height={item.accuracy} />
           </BarContainer>
-          <CategoryName>{item.category}</CategoryName>
+          <CategoryName>{CARD_CATEGORY_KO[item.category]}</CategoryName>
           <AccuracyText>{item.accuracy}%</AccuracyText>
         </GraphItem>
       ))}

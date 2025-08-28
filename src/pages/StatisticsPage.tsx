@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import BottomNavBar from '@components/common/BottomNavBar.tsx';
 import StatsGraph from '@components/statistics/StatsGrpah.tsx';
-import useStatistics from '@hooks/useStatistics.tsx';
-import type { CategoryStatistics } from '@hooks/useStatistics.tsx';
+import useMonthlyAnalysis from '@hooks/useMonthlyAnalysis.tsx';
 import styled from '@emotion/styled';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
+import type { CardCategory } from '@@types/index.ts';
+import { CARD_CATEGORY_KO } from '@utils/index.ts';
 
 const PageWrapper = styled.div`
   background-color: #faf8f5;
   color: ${GGAMJA_COLOR.DARK_BROWN};
   padding-bottom: 80px;
+  height: 100%;
+  overflow: auto;
 `;
 
 const Container = styled.div`
@@ -73,27 +76,20 @@ const StatisticsCategory = styled.h3`
 `;
 
 const StatisticsPage = () => {
-  const { fetchStatistics } = useStatistics();
-  const [categoryData, setCategoryData] = useState<CategoryStatistics[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { fetchMonthlyAnalysis } = useMonthlyAnalysis();
+  const [nickname, setNickname] = useState<string>('사용자');
+  const [categories, setCategories] = useState<{ category: CardCategory; quizLogCount: number; cardLogCount: number; accuracy: number }[]>([]);
+  const [strengths, setStrengths] = useState<string[]>([]);
+  const [weaknesses, setWeaknesses] = useState<string[]>([]);
+  const [allEqual, setAllEqual] = useState(false);
 
   useEffect(() => {
     const loadStatistics = async () => {
-      try {
-        const statisticsData = await fetchStatistics();
-        setCategoryData(statisticsData.categoryStats);
-      } catch (error) {
-        console.error('통계 데이터 로딩 실패:', error);
-        // 에러 시 기본 데이터 설정
-        setCategoryData([
-          { category: '역사', accuracy: 92, imageUrl: '/images/categories/history.png' },
-          { category: '속담', accuracy: 65, imageUrl: '/images/categories/proverb.png' },
-          { category: '지리', accuracy: 25, imageUrl: '/images/categories/geography.png' },
-          { category: '수도', accuracy: 0, imageUrl: '/images/categories/capital.png' },
-        ]);
-      } finally {
-        setIsLoading(false);
-      }
+      const statisticsData = await fetchMonthlyAnalysis();
+      setCategories(statisticsData.categories);
+      setStrengths(statisticsData.strengths);
+      setWeaknesses(statisticsData.weaknesses);
+      setAllEqual(statisticsData.allEqual);
     };
 
     loadStatistics();
@@ -109,15 +105,32 @@ const StatisticsPage = () => {
           <StatisticsTitle>카테고리 분석</StatisticsTitle>
           <StatisticsContent></StatisticsContent>
           <StatisticsTitle>정답률 분석</StatisticsTitle>
-          <StatisticsContent>{isLoading ? <div>로딩 중...</div> : <StatsGraph data={categoryData} />}</StatisticsContent>
-          <StatisticsTitle>채붕이님, 이번 달에는 ...</StatisticsTitle>
           <StatisticsContent>
-            <StatisticsTextContainer isSurpassed={true}>
-              <StatisticsCategory>속담</StatisticsCategory> 분야에 강하시네요!
-            </StatisticsTextContainer>
-            <StatisticsTextContainer isSurpassed={false}>
-              <StatisticsCategory>수도</StatisticsCategory> 분야를 조금 더 공부해보아요!
-            </StatisticsTextContainer>
+            <StatsGraph data={categories} />
+          </StatisticsContent>
+          <StatisticsTitle>{nickname}님, 이번 달에는 ...</StatisticsTitle>
+          <StatisticsContent>
+            {!allEqual
+              ? [
+                  { data: strengths, isSurpassed: true, message: '분야에 강하시네요!' },
+                  { data: weaknesses, isSurpassed: false, message: '분야를 조금 더 공부해보아요!' },
+                ].map(
+                  ({ data, isSurpassed, message }) =>
+                    data.length > 0 && (
+                      <StatisticsTextContainer key={message} isSurpassed={isSurpassed}>
+                        {data.map((category, index) => (
+                          <StatisticsCategory key={index}>
+                            {CARD_CATEGORY_KO[category as CardCategory]}
+                            {index < data.length - 1 ? ', ' : ''}
+                          </StatisticsCategory>
+                        ))}
+                        {message}
+                      </StatisticsTextContainer>
+                    ),
+                )
+              : categories[0].accuracy == 0
+                ? '지금 당장 공부하러 가볼까요?'
+                : ''}
           </StatisticsContent>
         </StatisticsContentWrapper>
         <BottomNavBar />
