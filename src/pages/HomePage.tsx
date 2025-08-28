@@ -122,22 +122,18 @@ const HomePage = () => {
 
   useEffect(() => {
     // 페이지 로드 시 팝업 표시 여부 확인
-    const expireDate = dayjs().add(1, 'day').startOf('day').toDate();
-    if (isValidPopup(expireDate)) {
+
+    if (isValidPopup()) {
       openPopup();
     }
   }, []);
 
-  const isValidPopup = (expireDate: Date) => {
+  const isValidPopup = () => {
     const cookies = new Cookies();
-    const currentDate = new Date();
 
     const cookie = cookies.get(`close_popup`);
-    if (cookie) {
-      return false;
-    }
 
-    return expireDate >= currentDate;
+    return !cookie;
   };
 
   const openPopup = () => {
