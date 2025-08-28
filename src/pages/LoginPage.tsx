@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { GGAMJA_COLOR } from '../styles/Colors.ts';
+import useLogin from '@hooks/useLogin.tsx';
 
 const PageWrapper = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
@@ -101,14 +102,15 @@ const SignUpButton = styled.button`
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { fetchLogin } = useLogin();
 
   const inputRefs = {
     email: useRef<HTMLInputElement>(null),
     password: useRef<HTMLInputElement>(null),
   };
 
-  const handleLogin = () => {
-    // 나중에 API 넣을 자리
+  const login = () => {
+    fetchLogin(inputRefs.email.current?.value ?? '', inputRefs.password.current?.value ?? '');
     navigate('/home');
   };
 
@@ -140,7 +142,7 @@ const LoginPage = () => {
       return;
     }
 
-    handleLogin();
+    login();
   };
 
   return (
