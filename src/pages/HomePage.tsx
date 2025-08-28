@@ -62,12 +62,46 @@ const floating = keyframes`
   }
 `;
 
+const scroll = keyframes`
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+`;
+
+// ================================= START: 잔디 스타일 수정 ================================= //
+
+const GrassBackgroundWrapper = styled.div`
+  position: absolute;
+  bottom: -30px; /* 캐릭터 발밑에 더 가깝게 위치하도록 조정 */
+  left: 0;
+  width: 100%;
+  height: 90px; /* 잔디 이미지의 높이를 2배로 늘려 더 크게 보이도록 조정 */
+  overflow: hidden;
+  z-index: 1;
+`;
+
+const GrassImages = styled.div`
+  background-image: url('https://ggamja-images.s3.ap-northeast-2.amazonaws.com/grass.png');
+  background-repeat: repeat-x;
+  background-size: auto 100%; /* 높이에 맞춰 이미지 크기 자동 조정, 너비는 반복되어 촘촘하게 */
+  width: 200%;
+  height: 100%;
+  animation: ${scroll} 10s linear infinite;
+`;
+
 const UserCharacterImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: contain;
   animation: ${floating} 1.5s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
 `;
+
+// ================================= END: 잔디 스타일 수정 ================================= //
 
 const SpeechBubble = styled.div<{ top: string; left: string }>`
   position: absolute;
@@ -213,13 +247,11 @@ const HomePage = () => {
 
   const openPopup = () => {
     setIsOpen(true);
-    // 팝업창 open 시 배경 스크롤 금지 코드
     document.body.style.overflow = 'hidden';
   };
 
   const closePopup = () => {
     setIsOpen(false);
-    // 팝업창 close 시 배경 스크롤 금지 해제 코드
     document.body.style.overflow = 'auto';
   };
 
@@ -235,18 +267,16 @@ const HomePage = () => {
       <Container>
         <Header>
           <PageTitle>홈</PageTitle>
-          {/* <PageSubtitle></PageSubtitle> */}
         </Header>
         <UserStatusWrapper>
           <UserCharacterWrapper>
-            <SpeechBubble
-              top={bubblePosition.top}
-              left={bubblePosition.left}
-              className={bubbleVisible ? 'visible' : ''}
-            >
+            <SpeechBubble top={bubblePosition.top} left={bubblePosition.left} className={bubbleVisible ? 'visible' : ''}>
               {bubbleMessage}
             </SpeechBubble>
             <UserCharacterImage src={characterUrl} alt="캐릭터" />
+            <GrassBackgroundWrapper>
+              <GrassImages />
+            </GrassBackgroundWrapper>
           </UserCharacterWrapper>
           <UserNicknameText>이름 : {nickname}</UserNicknameText>
           <UserCharacterNameText>{characterName}</UserCharacterNameText>
