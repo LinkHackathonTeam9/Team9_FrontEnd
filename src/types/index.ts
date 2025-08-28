@@ -8,3 +8,22 @@ export const CARD_CATEGORY = {
 } as const;
 
 export type CardCategory = (typeof CARD_CATEGORY)[keyof typeof CARD_CATEGORY];
+
+export interface ApiResponse<T> {
+  code: number;
+  message: string;
+  data: T;
+}
+
+export interface SignupResponse {
+  id: number;
+  nickname: string;
+}
+
+export interface LoginResponse {
+  id: number;
+  nickname: string;
+  levelName: string;
+  bonusGiven: boolean;
+  levelChanged: boolean;
+}
