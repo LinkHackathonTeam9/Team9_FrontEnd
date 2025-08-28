@@ -64,6 +64,10 @@ const BottomNavBar = () => {
         <Icon className="material-symbols-outlined">person</Icon>
         <Label>프로필</Label>
       </StyledNavLink>
+      <StyledNavLink to="/statistics">
+        <Icon className="material-symbols-outlined">bar_chart</Icon>
+        <Label>통계</Label>
+      </StyledNavLink>
     </NavContainer>
   );
 };
